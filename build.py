@@ -59,7 +59,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Build SMZ3 IPS')
     parser.add_argument('--asar', default='__unset', help='Location of asar binary (default is ./asar)')
     parser.add_argument('--config', help="JSON config file")
-    parser.add_argument('-k', '--keyshuffle', default='__unset', help="Keysanity level, currently between 1-15; default is (0) off")
+    parser.add_argument('-k', '--keyshuffle', default='__unset', help="Keysanity level, currently between 1-15; default is (15) all on")
     parser.add_argument('-c', '--cards', default='__unset', action='store_true', help="Use Keycards; default is true")
     parser.add_argument('--no-cards', dest='cards', action='store_false')
     parser.add_argument('-m', '--map', default='__unset', action='store_true', help="Show SM map; default is true")

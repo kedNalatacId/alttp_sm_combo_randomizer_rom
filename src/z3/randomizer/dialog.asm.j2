@@ -163,21 +163,25 @@ FreeDungeonItemNotice:
 	LDA #$00 : STA $7F5010 ; initialize scratch
 	LDA !ITEM_TEMPORARY
 	CMP.b #$24 : BEQ + : BRL ++ : + ; general small key
+        {% if keyshuffle is not defined or not keyshuffle.small_key %}BRL .skip{% endif %}
 		%CopyDialog(Notice_SmallKeyOf)
 		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
 		BRL .done
 	++ : CMP.b #$25 : BNE + ; general compass
+        {% if keyshuffle is not defined or not keyshuffle.compass %}BRL .skip{% endif %}
 		%CopyDialog(Notice_CompassOf)
 		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
 		BRL .done
 	+ : CMP.b #$33 : BNE + ; general map
+        {% if keyshuffle is not defined or not keyshuffle.map %}BRL .skip{% endif %}
 		%CopyDialog(Notice_MapOf)
 		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
 		BRL .done
 	+ : CMP.b #$32 : BNE + ; general big key
+        {% if keyshuffle is not defined or not keyshuffle.big_key %}BRL .skip{% endif %}
 		%CopyDialog(Notice_BigKeyOf)
 		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
@@ -185,21 +189,26 @@ FreeDungeonItemNotice:
 	+
 	AND.b #$F0 ; looking at high bits only
 	CMP.b #$70 : BNE + ; map of...
+        {% if keyshuffle is not defined or not keyshuffle.map %}BRL .skip{% endif %}
 		%CopyDialog(Notice_MapOf)
 		BRL .dungeon
 	+ : CMP.b #$80 : BNE + ; compass of...
+        {% if keyshuffle is not defined or not keyshuffle.compass %}BRL .skip{% endif %}
 		%CopyDialog(Notice_CompassOf)
 		BRL .dungeon
 	+ : CMP.b #$90 : BNE + ; big key of...
+        {% if keyshuffle is not defined or not keyshuffle.big_key %}BRL .skip{% endif %}
 		%CopyDialog(Notice_BigKeyOf)
 		BRL .dungeon
 	+ : CMP.b #$A0 : BNE + ; small key of...
+        {% if keyshuffle is not defined or not keyshuffle.small_key %}BRL .skip{% endif %}
 		LDA !ITEM_TEMPORARY : CMP.b #$AF : BNE ++ : BRL .skip : ++
 		%CopyDialog(Notice_SmallKeyOf)
 		PLA : AND.b #$0F : STA $7F5020 : LDA.b #$0F : !SUB $7F5020 : PHA
 		LDA #$01 : STA $7F5010 ; set up a flip for small keys
 		BRL .dungeon
 	+ : CMP.b #$D0 : BNE + ; keycard for ...
+        {% if not keycards %}BRL .skip{% endif %}
 		%CopyDialog(Notice_KeycardFor)
 		BRL .region
 	+

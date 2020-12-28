@@ -143,7 +143,7 @@ base $80CDA0
 		LDA #$0036 : ORA $18 : STA $7EC66A
 		LDA #$0037 : ORA $18 : STA $7EC66C
 		RTS
-		
+
 	Triple_Counter:								;Current Missile counter: brain melting simple math
 		STA $4204							;ex 125. 125/?
 		SEP #$20
@@ -159,7 +159,7 @@ base $80CDA0
 		LDA $4214 : ASL A : STA $14		;qoutient = 2. 2*2 then store
 		LDA $4216 : ASL A : STA $16		;remainder = 5. 5*2 then store
 		RTS
-		
+
 	Double_Counter:
 		STA $4204
 		SEP #$20
@@ -169,7 +169,7 @@ base $80CDA0
 		LDA $4214 : ASL A : STA $14
 		LDA $4216 : ASL A : STA $16
 		RTS
-		
+
 	SM_Numbers:
 		DW #$0045, #$003C, #$003D, #$003E, #$003F, #$0040, #$0041, #$0042, #$0043, #$0044
 

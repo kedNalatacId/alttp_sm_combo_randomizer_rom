@@ -10,7 +10,7 @@ org $c0fd00
 base $80fd00
 introskip_doorflags:
     ; Do some checks to see that we're actually starting a new game
-    
+
     ; Make sure game mode is 1f
     lda $7e0998
     cmp.w #$001f
@@ -27,7 +27,7 @@ introskip_doorflags:
     ; Set construction zone and red tower elevator doors to blue
     lda $7ed8b6
     ora.w #$0004
-    sta $7ed8b6    
+    sta $7ed8b6
     lda $7ed8b2
     ora.w #$0001
     sta $7ed8b2
@@ -45,7 +45,7 @@ introskip_doorflags:
     ; Set up open mode event bit flags
     lda #$0001
     sta $7ed820
-    
+
     lda #$0000
     sta.l !SRAM_SM_COMPLETED
     sta.l !SRAM_ALTTP_EQUIPMENT_1
@@ -58,14 +58,15 @@ introskip_doorflags:
     sta.l !region_timer_tmp
     sta.l !region_tmp
     sta.l !transition_tmp
-    
+
     jsl stats_clear_values  ; Clear SM stats
     jsl alttp_new_game      ; Setup new game for ALTTP
     jsl sm_copy_alttp_items ; Copy alttp items into temporary SRAM buffer
-    jsl zelda_fix_checksum  ; Fix alttp checksum    
-    
+    jsl zelda_fix_checksum  ; Fix alttp checksum
+
     ; begin Leno edits here!
     LDA #$FFFF  ; decrement the accumulator by 1, making it #$FFFF
+    {% if show_map %}
     sta.l $7ED908  ; activate Crateria and Brinstar maps
     ; sta.l $7ED909
     sta.l $7ED90A  ; activate Norfair and Wrecked Ship maps
@@ -74,16 +75,17 @@ introskip_doorflags:
     ; sta.l $7ED90D
     ; sta.l $7ED90E  Ceres and debug maps
     ; sta.l $7ED90F
-    
+
     %a8()
     lda.b #$01
     sta $0789  ; this is used for the minimap, so blue tiles can show up on it. this also lets the main map scroll
     %a16()
+    {% endif %}
 
     ; Call the save code to create a new file
     lda $7e0952
     jsl $818000
 
-.ret:   
+.ret:
     lda #$0000
     rtl

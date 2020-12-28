@@ -27,6 +27,8 @@
 ; #$61 - Progressive Lifting Glove
 ; #$62 - RNG Pool Item (Single)
 ; #$63 - RNG Pool Item (Multi)
+; #$64 - Progressive Bow
+; #$65 - Progressive Bow
 ; #$6A - Goal Item (Single/Triforce)
 ; #$6B - Goal Item (Multi/Power Star)
 ; #$70 - Maps
@@ -275,7 +277,7 @@ AddReceivedItemExpandedGetItem:
 		LDA $7EF371 : !ADD.b #$0A : STA $7EF371 ; upgrade arrows +10
 		LDA.l Upgrade10ArrowsRefill : STA $7EF376 ; fill arrows
 		BRL .done
-	+ CMP.b #$58 : BNE + ; Upgrade-Only Sivler Arrows
+	+ CMP.b #$58 : BNE + ; Upgrade-Only Silver Arrows
 		LDA.l SilverArrowsUseRestriction : BNE +++
 		LDA.l SilverArrowsAutoEquip : AND.b #$01 : BEQ +++
 			LDA $7EF340 : BEQ ++ : CMP.b #$03 : !BGE ++
@@ -302,6 +304,10 @@ AddReceivedItemExpandedGetItem:
 		BRL .done
 	+ CMP.b #$63 : BNE + ; RNG Pool Item (Multi)
 		BRL .done
+    + CMP.b #$64 : BNE + ; Progressive Bow
+        BRL .done
+    + CMP.b #$65 : BNE + ; Progressive Bow
+        BRL .done
 	+ CMP.b #$70 : !BLT + : CMP.b #$80 : !BGE + ; Free Map
 		AND #$0F : CMP #$08 : !BGE ++
 			%ValueShift()
@@ -344,8 +350,6 @@ AddReceivedItemExpandedGetItem:
 		++ : CPX.b #$01 : BNE ++
 			STA $7EF37C ; copy sewers to HC
 		++
-		
-
 
 		LDA.l GenericKeys : BEQ +
 		.generic
@@ -451,22 +455,32 @@ AddReceivedItemExpanded:
 				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 			+ : CMP.b #$40 : BNE + ; Fighter Shield
 				LDA.b #$05 : STA $02D8
-				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRA .done
+				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 			+ ; Everything Else
 				LDA.b #$06 : STA $02D8
-				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRA .done
+				LDA !PROGRESSIVE_SHIELD : !ADD.b #$40 : STA !PROGRESSIVE_SHIELD : BRL .done
 		++ : CMP.b #$60 : BNE ++ ; Progressive Armor
 			LDA $7EF35B : CMP.l ProgressiveArmorLimit : !BLT +
 				LDA.l ProgressiveArmorReplacement : STA $02D8 : BRL .done
 			+ : CMP.b #$00 : BNE + ; No Armor
-				LDA.b #$22 : STA $02D8 : BRA .done
+				LDA.b #$22 : STA $02D8 : BRL .done
 			+ ; Everything Else
-				LDA.b #$23 : STA $02D8 : BRA .done
+				LDA.b #$23 : STA $02D8 : BRL .done
 		++ : CMP.b #$61 : BNE ++ ; Progressive Lifting Glove
 			LDA $7EF354 : BNE + ; No Lift
 				LDA.b #$1B : STA $02D8 : BRA .done
 			+ ; Everything Else
 				LDA.b #$1C : STA $02D8 : BRA .done
+        ++ : CMP.b #$64 : BNE ++ : -- ; Progressive Bow
+            LDA $7EF340 : INC : LSR : CMP.l ProgressiveBowLimit : !BLT +
+                LDA.l ProgressiveBowReplacement : STA $02D8 : BRL .done
+            + : CMP.b #$00 : BNE + ; No Bow
+                LDA.b #$3A : STA $02D8 : BRA .done
+            + ; Any Bow
+                LDA.b #$3B : STA $02D8 : BRA .done
+        ++ : CMP.b #$65 : BNE ++ ; Progressive Bow 2
+            LDA.l !INVENTORY_SWAP_2 : ORA #$20 : STA.l !INVENTORY_SWAP_2
+            BRA --
 		++ : CMP.b #$62 : BNE ++ ; RNG Item (Single)
 			JSL.l GetRNGItemSingle : STA $02D8
 			XBA : JSR.w MarkRNGItemSingle
@@ -507,13 +521,14 @@ AddReceivedItemExpanded:
 	db -5 ; Master Sword (Safe)
 	db -4, -4, -4, -4 ; +5/+10 Bomb Arrows
 	db -4, -4, -4 ; 3x Programmable Item
-	db -4 ; Upgrade-Only Sivler Arrows
+	db -4 ; Upgrade-Only Silver Arrows
 	db -4 ; 1 Rupoor
 	db -4 ; Null Item
 	db -4, -4, -4 ; Red, Blue & Green Clocks
 	db -4, -4, -4, -4 ; Progressive Sword, Shield, Armor & Gloves
 	db -4, -4 ; RNG Single & Multi
-	db -4, -4, -4, -4, -4, -4 ; Unused
+    db -4, -4 ; Progressive Bow x2
+	db -4, -4, -4, -4 ; Unused
 	db -4, -4, -4 ; Goal Item Single, Multi & Alt Multi
 	db -4, -4, -4 ; Unused
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Free Map
@@ -547,13 +562,14 @@ AddReceivedItemExpanded:
 	db  4 ; Master Sword (Safe)
 	db  0,  0,  0,  0 ; +5/+10 Bomb Arrows
 	db  0,  0,  0 ; 3x Programmable Item
-	db  0 ; Upgrade-Only Sivler Arrows
+	db  0 ; Upgrade-Only Silver Arrows
 	db  4 ; 1 Rupoor
 	db  0 ; Null Item
 	db  0, 0, 0 ; Red, Blue & Green Clocks
 	db  0, 0, 0, 0 ; Progressive Sword, Shield, Armor & Gloves
 	db  0, 0 ; RNG Single & Multi
-	db  0, 0, 0, 0, 0, 0 ; Unused
+    db  0, 0 ; Progressive Bow x2
+	db  0, 0, 0, 0 ; Unused
 	db  0, 0, 0 ; Goal Item Single, Multi & Alt Multi
 	db  0, 0, 0 ; Unused
 	db  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; Free Map
@@ -588,13 +604,14 @@ AddReceivedItemExpanded:
 	db $18 ; Master Sword (Safe)
 	db $3D, $3E, $3F, $40 ; +5/+10 Bomb Arrows
 	db $00, $00, $00 ; 3x Programmable Item
-	db $41 ; Upgrade-Only Sivler Arrows
+	db $41 ; Upgrade-Only Silver Arrows
 	db $24 ; 1 Rupoor
 	db $47 ; Null Item
 	db $48, $48, $48 ; Red, Blue & Green Clocks
 	db $FF, $FF, $04, $0D ; Progressive Sword, Shield, Armor & Gloves
 	db $FF, $FF ; RNG Single & Multi
-	db $FF, $FF, $FF, $FF, $FF, $FF ; Unused
+    db $FF, $FF ; Progressive Bow x2
+	db $FF, $FF, $FF, $FF ; Unused
 	db $49, $4A, $49 ; Goal Item Single, Multi & Alt Multi
 	db $FF, $FF, $FF ; Unused
 	db $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21 ; Free Map
@@ -637,13 +654,14 @@ AddReceivedItemExpanded:
 	db $00 ; Master Sword (Safe)
 	db $02, $02, $02, $02 ; +5/+10 Bomb Arrows
 	db $02, $02, $02 ; 3x Programmable Item
-	db $02 ; Upgrade-Only Sivler Arrows
+	db $02 ; Upgrade-Only Silver Arrows
 	db $00 ; 1 Rupoor
 	db $02 ; Null Item
 	db $02, $02, $02 ; Red, Blue & Green Clocks
 	db $02, $02, $02, $02 ; Progressive Sword, Shield, Armor & Gloves
 	db $02, $02 ; RNG Single & Multi
-	db $02, $02, $02, $02, $02, $02 ; Unused
+    db $02, $02 ; Progressive Bow x2
+	db $02, $02, $02, $02 ; Unused
 	db $02, $02, $02 ; Goal Item Single, Multi & Alt Multi
 	db $02, $02, $02 ; Unused
 	db $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02 ; Free Map
@@ -678,13 +696,14 @@ AddReceivedItemExpanded:
 	db  5 ; Master Sword (Safe)
 	db  4,  4,  4,  4 ; +5/+10 Bomb Arrows
 	db  4,  4,  4 ; 3x Programmable Item
-	db  1 ; Upgrade-Only Sivler Arrows
+	db  1 ; Upgrade-Only Silver Arrows
 	db  3 ; 1 Rupoor
 	db  1 ; Null Item
 	db  1, 2, 4 ; Red, Blue & Green Clocks
 	db  $FF, $FF, $FF, $FF ; Progressive Sword, Shield, Armor & Gloves
 	db  $FF, $FF ; RNG Single & Multi
-	db  0, 0, 0, 0, 0, 0 ; Unused
+    db  0, 0 ; Progressive Bow x2
+	db  0, 0, 0, 0 ; Unused
 	db  4, 4, 4 ; Goal Item Single, Multi & Alt Multi
 	db  0, 0, 0 ; Unused
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Free Map
@@ -720,13 +739,14 @@ AddReceivedItemExpanded:
 	dw $F359 ; Master Sword (Safe)
 	dw $F375, $F375, $F376, $F376 ; +5/+10 Bomb Arrows
 	dw $F41A, $F41C, $F41E ; 3x Programmable Item
-	dw $F340 ; Upgrade-Only Sivler Arrows
+	dw $F340 ; Upgrade-Only Silver Arrows
 	dw $F360 ; 1 Rupoor
 	dw $F36A ; Null Item
 	dw $F454, $F454, $F454 ; Red, Blue & Green Clocks
 	dw $F359, $F35A, $F35B, $F354 ; Progressive Sword, Shield, Armor & Gloves
 	dw $F36A, $F36A ; RNG Single & Multi
-	dw $F36A, $F36A, $F36A, $F36A, $F36A, $F36A ; Unused
+    dw $F340, $F340 ; Progressive Bow x2
+	dw $F36A, $F36A, $F36A, $F36A ; Unused
 	dw $F36A, $F36A, $F36A ; Goal Item Single, Multi & Alt Multi
 	dw $F36A, $F36A, $F36A ; Unused
 	dw $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A ; Free Map
@@ -762,13 +782,14 @@ AddReceivedItemExpanded:
 	db $02 ; Master Sword (Safe)
 	db $FF, $FF, $FF, $FF ; +5/+10 Bomb Arrows
 	db $FF, $FF, $FF ; 3x Programmable Item
-	db $FF ; Upgrade-Only Sivler Arrows
+	db $FF ; Upgrade-Only Silver Arrows
 	db $FF ; 1 Rupoor
 	db $FF ; Null Item
 	db $FF, $FF, $FF ; Red, Blue & Green Clocks
 	db $FF, $FF, $FF, $FF ; Progressive Sword, Shield, Armor & Gloves
 	db $FF, $FF ; RNG Single & Multi
-	db $FF, $FF, $FF, $FF, $FF, $FF ; Unused
+	db $FF, $FF ; Progressive Bow
+	db $FF, $FF, $FF, $FF ; Unused
 	db $FF, $FF, $FF ; Goal Item Single, Multi & Alt Multi
 	db $FF, $FF, $FF ; Unused
 	db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Free Map
@@ -852,7 +873,8 @@ Link_ReceiveItemAlternatesExpanded:
 	db -1, -1, -1 ; Red, Blue & Green Clocks
 	db -1, -1, -1, -1 ; Progressive Sword, Shield, Armor & Gloves
 	db -1, -1 ; RNG Single & Multi
-	db -1, -1, -1, -1, -1, -1 ; Unused
+	db -1, -1 ; Progressive Bow
+	db -1, -1, -1, -1 ; Unused
 	db -1, -1 ; Goal Item Single, Multi & Alt Multi
 	db -1, -1, -1, -1 ; Unused
 	db -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ; Free Map

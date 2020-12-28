@@ -1035,8 +1035,10 @@ JSL.l DrawHUDArrows : BRA +
 org $01CF67 ; <- CF67 - Bank01.asm : 11625 (STA $7EF36F)
 JSL.l DecrementSmallKeys
 ; ;--------------------------------------------------------------------------------
+{% if keyshuffle is defined and (keyshuffle.small_key or keyshuffle.big_key) %}
 org $0DED04 ; <- 6ED04 - equipment.asm : 1963 (REP #$30)
 JSL.l DrawHUDDungeonItems
+{% endif %}
 ;--------------------------------------------------------------------------------
 ; Insert our version of the hud tilemap
 org $0DFA96 ; <- 6FA96 - headsup_display.asm : 626 (LDX.w #.hud_tilemap)
@@ -2112,15 +2114,15 @@ org $00DF6E ; <- A few instructions later, right after JSR Do3To4High16Bit
 ; JSL.l DecrementArrows : SKIP 2 : NOP : LDA $7EF377
 ; ;================================================================================
 
-; ;================================================================================
-; ; Quick Swap
-; ;--------------------------------------------------------------------------------
-; org $0287FB ; <- 107FB - Bank02.asm:1526 (LDA $F6 : AND.b #$40 : BEQ .dontActivateMap)
-; JSL.l QuickSwap
+;================================================================================
+; Quick Swap
+;--------------------------------------------------------------------------------
+org $0287FB ; <- 107FB - Bank02.asm:1526 (LDA $F6 : AND.b #$40 : BEQ .dontActivateMap)
+JSL.l QuickSwap
 
-; org $02A451 ; <- 12451 - Bank02.asm:6283 (LDA $F6 : AND.b #$40 : BEQ .xButtonNotDown)
-; JSL.l QuickSwap
-; ;================================================================================
+org $02A451 ; <- 12451 - Bank02.asm:6283 (LDA $F6 : AND.b #$40 : BEQ .xButtonNotDown)
+JSL.l QuickSwap
+;================================================================================
 
 ;================================================================================
 ; Tagalong Fixes

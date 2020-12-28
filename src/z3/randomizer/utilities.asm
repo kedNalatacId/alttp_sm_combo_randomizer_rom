@@ -80,6 +80,12 @@ RTL
 			LDA.b #$20 : RTL
 		+ ; Everything Else
 			LDA.b #$2E : RTL
+	++ : CMP.b #$F8 : BNE ++ ; Progressive Bow
+		LDA $7EF340
+		CMP.b #$00 : BNE + ; No Bow
+			LDA.b #$29 : RTL
+		+ ; Any Bow
+			LDA.b #$2A : RTL
 	++
 RTL
 
@@ -88,16 +94,16 @@ RTL
 	.gfxSlots
     db $06, $44, $45, $46, $2D, $20, $2E, $09
     db $09, $0A, $08, $05, $10, $0B, $2C, $1B
-    
+
     db $1A, $1C, $14, $19, $0C, $07, $1D, $2F
     db $07, $15, $12, $0D, $0D, $0E, $11, $17
-    
+
     db $28, $27, $04, $04, $0F, $16, $03, $13
     db $01, $1E, $10, $00, $00, $00, $00, $00
 
     db $00, $30, $22, $21, $24, $24, $24, $23
     db $23, $23, $29, $2A, $2C, $2B, $03, $03
-    
+
     db $34, $35, $31, $33, $02, $32, $36, $37
 	db $2C, $43, $0C, $38, $39, $3A, $F9, $3C
 	; db $2C, $06, $0C, $38, $FF, $FF, $FF, $FF
@@ -111,11 +117,12 @@ RTL
 	db $47 ; Null Item
 	db $48, $48, $48 ; Red, Blue & Green Clocks
 	db $FE, $FF ; Progressive Sword & Shield
-	
+
 	;6x
 	db $FD, $0D ; Progressive Armor & Gloves
 	db $FA, $FB ; RNG Single & Multi
-	db $FF, $FF, $FF, $FF, $FF, $FF ; Unused
+	db $F8, $F8 ; Progressive Bow x2
+	db $FF, $FF, $FF, $FF ; Unused
 	db $49, $4A, $49 ; Goal Item Single, Multi & Alt Multi
 	db $FF, $FF, $FF ; Unused
 	
@@ -214,6 +221,11 @@ RTL
 			LDA.b #$02 : RTL
 		+ ; Everything Else
 			LDA.b #$08 : RTL
+	++ : CMP.b #$F8 : BNE ++ ; Progressive Bow
+		LDA $7EF354 : BNE + ; No Bow
+			LDA.b #$08 : RTL
+		+ ; Any Bow
+			LDA.b #$02 : RTL
 	++ : CMP.b #$FA : BNE ++ ; RNG Item (Single)
 		LDA #$01 : STA !MULTIWORLD_SWAP : JSL.l GetRNGItemSingle : JMP GetSpritePalette
 	++ : CMP.b #$FB : BNE ++ ; RNG Item (Multi)
@@ -602,7 +614,7 @@ HexToDec:
 	CMP.w #1 : !BLT +
 	PHA : SEP #$20 : LDA $7F5007 : INC : STA $7F5007 : REP #$20 : PLA
 	!SUB.w #1 : BRA -
-	+ 
+	+
 	PLA
 RTL
 ;--------------------------------------------------------------------------------

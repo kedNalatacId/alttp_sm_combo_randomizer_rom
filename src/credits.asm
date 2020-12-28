@@ -39,7 +39,7 @@ init:
 
     ; Set data bank register to bank 00
     pea $0000
-    plb : plb   
+    plb : plb
 
     ; Direct page to 2100 for HW regs
     lda #$2100
@@ -142,10 +142,10 @@ init:
     lda #$0003
     sta !CREDITS_SPEED
     sta !CREDITS_SPEED_COUNTER
-    
+
     lda #$0000
     sta !CREDITS_UPDATE_FLAG
-    
+
     lda #$0040
     sta !CREDITS_UPDATE_COUNTER
 
@@ -156,14 +156,14 @@ init:
     sta !CREDITS_ADDR
     lda #$007f
     sta !CREDITS_ADDR+2
-    
+
     ; %a16()
     ; lda #$0001
     ; sta !CREDITS_STREAM_SKIP
     ; lda #$0030
     ; sta !CREDITS_STREAM_WAIT
     ; jsl stream_upload
-    
+
     %a8()
     ; Turn NMI back on
     lda #$80
@@ -180,7 +180,7 @@ init:
 
     lda !CREDITS_SPEED_COUNTER
     dec a
-    bne +    
+    bne +
     dec !CREDITS_UPDATE_COUNTER
     inc !CREDITS_Y
     lda !CREDITS_SPEED
@@ -356,7 +356,7 @@ init:
     bne .next_event
 
     ; If it's zero, skip to the next part as defined in the event
-    lda.l events+6, x 
+    lda.l events+6, x
     sta !CREDITS_ADDR
     bra .next_event
 
@@ -365,7 +365,7 @@ init:
     inx
     phx
     txa : asl #3 : tax
-    bra -    
+    bra -
 
 .endevents
     plx
@@ -390,7 +390,7 @@ nmi:
     sta $210e
 
     %ai16()
-    lda !CREDITS_UPDATE_FLAG 
+    lda !CREDITS_UPDATE_FLAG
     beq +
     jsr write_vram_zp
     lda #$0000
@@ -410,7 +410,7 @@ nmi:
 .switchbg
     lda !CREDITS_BG
     bne +
-    
+
     %a8()
     lda #$08
     sta $2108
@@ -450,7 +450,7 @@ nmi:
 
 .nmiend
     plp : ply : plx : pla
-    rti    
+    rti
 
 
 load_graphics:
@@ -483,7 +483,7 @@ load_graphics:
 
 write_bg_pal:
     pha : phx : phy : php
-    
+
     %a8()
     ldx #$0000
     lda #$30
@@ -501,9 +501,9 @@ write_bg_pal:
     rts
 
 load_tilemap:
-    pha : phx : phy : php    
+    pha : phx : phy : php
     %ai16()
-    jsr write_wram : dl tilemap_data : dw #$0000 : dw #$8000 ; Copy tilemap data to 7f0000    
+    jsr write_wram : dl tilemap_data : dw #$0000 : dw #$8000 ; Copy tilemap data to 7f0000
     plp : ply : plx : pla
     rts
 
@@ -513,7 +513,7 @@ clear_vram:
     sta $2115
     lda #$0000
     sta $2116
-    
+
     lda #$007f
     ldx #$0000
 -
@@ -524,7 +524,7 @@ clear_vram:
     rts
 
 
-write_vram: 
+write_vram:
     ; Get a pointer to the caller return address
     rep #$30
     lda #$00ff
@@ -564,7 +564,7 @@ write_vram:
     rep #$30
     rts
 
-write_vram_zp: 
+write_vram_zp:
     rep #$30
     lda $d0
     sta $4302
@@ -587,7 +587,7 @@ write_vram_zp:
     rep #$30
     rts
 
-write_wram: 
+write_wram:
     ; Get a pointer to the caller return address
     rep #$30
     lda #$00ff
@@ -631,10 +631,10 @@ write_wram:
 ; Palette address in $02, fade in $04
 write_faded_pal:
     pha : phx : phy : php
-    %ai16()    
+    %ai16()
     ldx $02
     ldy #$0000
-    
+
 -
     ; red component
     lda $ff0000,x
@@ -670,7 +670,7 @@ write_faded_pal:
 +
     asl #10
     ora $06
-    sta $06    
+    sta $06
 
     lda $06
     phx
@@ -701,7 +701,7 @@ draw_full_time:
     lda #$ffff
     sta $1a
     jsr div32 ; frames in $14, rest in $16
-    iny : iny : iny : iny : iny : iny ; Increment Y three positions forward to write the last value    
+    iny : iny : iny : iny : iny : iny ; Increment Y three positions forward to write the last value
     lda $14
     jsr draw_two
     tya
@@ -712,7 +712,7 @@ draw_full_time:
     jsr draw_time
     plb
     plx
-    rts  
+    rts
 
 ; Draw time as xx:yy:zz
 draw_time:
@@ -747,12 +747,12 @@ draw_time:
     jsr draw_two
     plb
     plx
-    rts        
+    rts
 
 ; Draw 5-digit value to credits tilemap
 ; A = number to draw, Y = row address
 draw_value:
-    phx    
+    phx
     phb
     pea $7f7f : plb : plb
     sta $004204
@@ -823,9 +823,9 @@ draw_two:
     iny : iny : iny : iny
     rts
 
-div32: 
+div32:
     phy
-    phx             
+    phx
     php
     rep #$30
     sep #$10
@@ -865,8 +865,8 @@ umend:
 
 write_stats:
     pha : phx : phy : php : phb
-    %ai16()       
-    
+    %ai16()
+
     pea $ffff
     plb : plb
 
@@ -939,9 +939,9 @@ write_stats:
     pla
     jsr draw_time
     txy
-    jmp .continue   
+    jmp .continue
 
-.sm_fulltime   
+.sm_fulltime
     lda stats+4,x        ; Get stat id
     asl
     clc
@@ -1017,7 +1017,7 @@ write_stats:
     pla
     jsr draw_value
     ply
-    jmp .continue   
+    jmp .continue
 
 .continue
     iny
@@ -1036,7 +1036,7 @@ alttp_shift_stat:
     lda $02
     and #$00ff
 
--    
+-
     cpx #$0000
     beq +
     lsr
@@ -1119,7 +1119,7 @@ triforce_pal:
 numbers_top:
     dw $0060, $0061, $0062, $0063, $0064, $0065, $0066, $0067, $0068, $0069, $006a, $006b, $006c, $006d, $006e, $006f
 numbers_bot:
-    dw $0070, $0071, $0072, $0073, $0074, $0075, $0076, $0077, $0078, $0079, $007a, $007b, $007c, $007d, $007e, $007f 
+    dw $0070, $0071, $0072, $0073, $0074, $0075, $0076, $0077, $0078, $0079, $007a, $007b, $007c, $007d, $007e, $007f
 
 warnpc $ff8000
 
@@ -1147,7 +1147,7 @@ tilemap_data:
     dw "                                "
     !PURPLE
     dw "     ORIGINAL GAME CREDITS      "
-    dw "                                "   
+    dw "                                "
     !CYAN : dw "A LINK TO THE PAST" : !BLUE : dw " SUPER METROID"
     dw "                                "
     !CYAN : dw "HIROSHI YAMAUCHI" : !BLUE : dw "    MAKOTO KANOH"
@@ -1390,7 +1390,7 @@ tilemap_data:
     dw "                                "
     !CYAN
     dw "           TIME FOUND           "
-    dw "                                "    
+    dw "                                "
     !BIG
 .alttp_first_sword
     dw " FIRST SWORD        00'00'00^00 "
@@ -1411,7 +1411,7 @@ tilemap_data:
     dw "                                "
     !ORANGE
     dw "           BOSS KILLS           "
-    dw "                                "    
+    dw "                                "
     !BIG
 .alttp_swordless
     dw " SWORDLESS                      "
@@ -1437,7 +1437,7 @@ tilemap_data:
 
     !PURPLE
     dw "           GAME STATS           "
-    dw "                                "    
+    dw "                                "
     !BIG
 
 .alttp_gtbigkey
@@ -1498,7 +1498,7 @@ tilemap_data:
     dw " total time                     "
     dw "                                "
 .collection_rate
-    dw " COLLECTED ITEMS                "
+    dw " COLLECTED ITEMS        316/316 "
     dw " collected items                "
     dw "                                "
     dw "                                "

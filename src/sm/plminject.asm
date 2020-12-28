@@ -23,7 +23,7 @@ inject_plms:
     bne .next
 
     ; Ok, Spawn the PLM
-    phx 
+    phx
     txa
     clc
     adc #plm_table+$2

@@ -223,7 +223,7 @@ item_graphics:
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 38 Dummy - Pendant of Wisdom
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 39 Dummy - Pendant of Power
     dw $9200 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 3A Bow and Arrows
-    dw $DE00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 3B Silver Arrows
+    dw $DE00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 3B Bow and Silver Arrows
     dw $BE00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 3C Bee Bottle
     dw $C000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 3D Fairy Bottle
     dw $D300 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 3E Heart Container - Boss
@@ -382,7 +382,11 @@ progressive_items:
     db $5f, $5A, $03, $04, $05, $06, $00, $00     ; Progressive shield
     db $60, $5B, $02, $22, $23, $00, $00, $00     ; Progressive armor
     db $61, $54, $02, $1b, $1c, $00, $00, $00     ; Progressive glove
+    db $64, $54, $02, $0b, $58, $00, $00, $00     ; Progressive bow
     db $ff
+
+; not a clue what the SRAM offset is supposed to be :(
+; db $3a, $54, $02, $3a, $3b, $00, $00, $00     ; Progressive bow
 
 i_visible_item:
     lda #$0006

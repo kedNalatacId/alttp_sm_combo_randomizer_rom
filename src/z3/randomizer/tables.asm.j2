@@ -101,7 +101,7 @@ db #$02 ; #$02 = Tempered Sword (default)
 ;--------------------------------------------------------------------------------
 org $400030 ; PC 0x180030
 EnableSRAMTrace:
-db #$00 ; #$00 = Off (default) - #$01 = On
+db #${% if sramtrace %}01{% else %}00{% endif %} ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $400031 ; PC 0x180031
 EnableEasterEggs:
@@ -111,9 +111,26 @@ org $400032 ; PC 0x180032
 OpenMode:
 db #$01 ; #$00 = Normal (default) - #$01 = Open
 ;--------------------------------------------------------------------------------
-org $400033 ; PC 0x180033
+org $400033 ; PC 0x180033 ; #$00 = Off - #$20 = Normal (default) - #$40 = Half Speed - #$80 = Quarter Speed
 HeartBeep:
-db #$40 ; #$00 = Off - #$20 = Normal (default) - #$40 = Half Speed - #$80 = Quarter Speed
+db #${% if heartbeep is defined and heartbeep %}{% if heartbeep == "off" %}00{% elif heartbeep == "normal" %}20{% elif heartbeep == "half" %}40{% elif heartbeep == "quarter" %}80{% else %}{{ heartbeep }}{% endif %}{% else %}20{% endif %}
+;--------------------------------------------------------------------------------
+; z3HeartColor
+{%- if heartcolor is defined and heartcolor != "red" %}
+
+; HUD values
+{#- jinja doesn't do hex arithmetic that i'm aware of? #}
+{%- set locs = [ "4DFA1E", "4DFA20", "4DFA22", "4DFA24", "4DFA26", "4DFA28", "4DFA2A", "4DFA2C", "4DFA2E", "4DFA30" ] %}
+{%- for loc in locs %}
+org ${{ loc }}
+db #${% if heartcolor == "yellow" %}28{% elif heartcolor == "blue" %}2C{% elif heartcolor == "green" %}3C{% else %}24{% endif %}
+{%- endfor %}
+
+; file select
+org $5BD6AA
+db #${% if heartcolor == "yellow" %}BC{% elif heartcolor == "blue" %}C9{% elif heartcolor == "green" %}04{% else %}18{% endif %}
+db #${% if heartcolor == "yellow" %}02{% elif heartcolor == "blue" %}69{% elif heartcolor == "green" %}17{% else %}00{% endif %}
+{% endif -%}
 ;--------------------------------------------------------------------------------
 org $400034 ; PC 0x180034 - 0x180035
 StartingMaxBombs:
@@ -145,7 +162,8 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $40003E ; PC 0x18003E
 InvincibleGanon:
-db #$00
+db #${% if invincibleganon == "AllDungeons" %}02{% elif invincibleganon == "Crystals" %}04{% elif invincibleganon == "CrystalsAga" %}03{% elif invincibleganon == "goalitems" %}05{% else %}00{% endif %}
+; db #$00 ; -- orig
 ; #$00 = Off (default)
 ; #$01 = On
 ; #$02 = Require All Dungeons
@@ -205,7 +223,7 @@ db #$00 ; #$00 = Normal (default) - #$01 = Inverted
 ;--------------------------------------------------------------------------------
 org $40004B ; PC 0x18004B
 QuickSwapFlag:
-db #$00 ; #$00 = Off (default) - #$01 = On
+db #${% if quickswap is defined and quickswap %}01{% else %}00{% endif %} ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $40004C ; PC 0x18004C
 SmithTravelsFreely:
@@ -368,6 +386,10 @@ db #$47 ; #$47 - 20 Rupees (default)
 BottleLimit:
 db #$04 ; #$04 - 4 Bottles (default)
 BottleLimitReplacement:
+db #$47 ; #$47 - 20 Rupees (default)
+ProgressiveBowLimit:
+db #$02 ; #$02 - 2 Bows (default)
+ProgressiveBowReplacement:
 db #$47 ; #$47 - 20 Rupees (default)
 ;--------------------------------------------------------------------------------
 ; 0x180098 - 0x18009F (unused)
@@ -750,9 +772,9 @@ org $400165 ; PC 0x180165
 GoalItemIcon:
 dw #$280E ; #$280D = Star - #$280E = Triforce Piece (default)
 ;================================================================================
-org $400167 ; PC 0x180167
+org $400167 ; PC 0x180167 ; #$00 = Off (default) - #$XX = Require $XX Goal Items - #$FF = Counter-Only
 GoalItemRequirement:
-db #$00 ; #$00 = Off (default) - #$XX = Require $XX Goal Items - #$FF = Counter-Only
+db #${% if goalitem %}{{ goalitem }}{% else %}00{% endif %}
 ;================================================================================
 org $400168 ; PC 0x180168
 ByrnaCaveSpikeDamage:
@@ -802,10 +824,10 @@ dw #$000A ; #$000A = 10 (Default)
 ;================================================================================
 org $40017A ; PC 0x18017A ; #$2000 for Eastern Palace
 MapReveal_Sahasrahla:
-dw #$0000
+dw #${% if mapreveal %}2000{% else %}0000{% endif %}
 org $40017C ; PC 0x18017C ; #$0140 for Ice Palace and Misery Mire
 MapReveal_BombShop:
-dw #$0000
+dw #${% if mapreveal %}0140{% else %}0000{% endif %}
 ;================================================================================
 org $40017E ; PC 0x18017E
 Restrict_Ponds:
@@ -1288,6 +1310,9 @@ db $04
 
 ;62:RNG Pool Item (Single)
 ;63:RNG Pool Item (Multi)
+
+;64:Progressive Bow ; incorrect, see 3A/3B (WIP)
+;65:Progressive Bow
 
 ;6A:Goal Item (Single/Triforce)
 ;6B:Goal Item (Multi/Power Star)

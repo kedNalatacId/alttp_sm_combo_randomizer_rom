@@ -19,11 +19,11 @@ base $aafd00
 
 ; room id in !SRAM_SM_EXIT
 ; When we're entering this routine, ALTTP is running but all the relevant SRAM data
-; and extra state data has already been saved, so all we do here is setup SM in a 
+; and extra state data has already been saved, so all we do here is setup SM in a
 ; proper state and then trigger the door transition.
 transition_to_sm:
     sei                         ; Disable IRQ's
-    
+
     %i16()
     %a8()
 
@@ -80,11 +80,11 @@ transition_to_sm:
     ldx #$1ff0
     txs                         ; Adjust stack pointer
 
-    lda #$ffff                  ; Set the "game flag" to SM so IRQ's/NMI runs using the 
+    lda #$ffff                  ; Set the "game flag" to SM so IRQ's/NMI runs using the
     sta !SRAM_CURRENT_GAME      ; correct game
 
     jsl sm_fix_checksum         ; Fix SRAM checksum (otherwise SM deletes the file on load)
-    
+
     lda #$0000
     jsl $818085                 ; Load SRAM contents back into RAM
 
@@ -163,7 +163,7 @@ sm_fix_checksum:
     php
 
     %ai16()
-    
+
     lda $14
     pha
     stz $14
@@ -264,17 +264,17 @@ sm_save_alttp_items: ; Restores ALTTP items to the real SRAM
 
 sm_spc_data:        ; Upload this data to the SM music engine to kill it and put it back into IPL mode
     dw $002a, $0b00
-    db $8f, $6c, $f2 
+    db $8f, $6c, $f2
     db $8f, $e0, $f3 ; Disable echo buffer writes and mute amplifier
-    db $8f, $7c, $f2 
+    db $8f, $7c, $f2
     db $8f, $ff, $f3 ; ENDX
-    db $8f, $7d, $f2 
+    db $8f, $7d, $f2
     db $8f, $00, $f3 ; Disable echo delay
-    db $8f, $4d, $f2 
+    db $8f, $4d, $f2
     db $8f, $00, $f3 ; EON
-    db $8f, $5c, $f2 
+    db $8f, $5c, $f2
     db $8f, $ff, $f3 ; KOFF
-    db $8f, $5c, $f2 
+    db $8f, $5c, $f2
     db $8f, $00, $f3 ; KOFF
     db $8f, $80, $f1 ; Enable IPL ROM
     db $5f, $c0, $ff ; jmp $ffc0
@@ -285,7 +285,7 @@ base $82f710
 sm_setup_door:
     php                         ; This runs some important routines to update the RAM with
     phb                         ; needed values for the door transition to work at all
-    rep #$30            
+    rep #$30
     pea $8f00
     plb
     plb

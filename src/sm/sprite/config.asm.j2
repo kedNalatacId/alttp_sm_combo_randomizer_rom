@@ -1,0 +1,24 @@
+; Sprite specific configuration flags
+
+org $DB93FE
+base $9B93FE
+
+; Use the new screw attack animations if enabled
+config_screw_attack:
+    dw {% if new_screw is defined and new_screw %}#$0001{% else %}#$0000{% endif %}
+
+
+; z3 energy beep on/off -- ??: "on"; 80: "off"
+{% if energybeep is defined and not energybeep %}
+org  $D0EA9B
+base $90EA9B
+db #$80
+
+org  $D0F337
+base $90F337
+db #$80
+
+org  $D1E6D5
+base $91E6D5
+db #$80
+{% endif %}

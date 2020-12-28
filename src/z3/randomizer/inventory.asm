@@ -15,10 +15,10 @@
 ;--------------------------------------------------------------------------------
 !INVENTORY_SWAP_2 = "$7EF38E"
 ; Item Tracking Slot #2
-; bs------
+; bsp-----
 ; b = bow
 ; s = silver arrow bow
-; -
+; p = 2nd progressive bow
 ; -
 ; -
 ; -
@@ -512,7 +512,7 @@ AddInventory:
 	  CPY.b #$55 : !BGE +
 		JSR .incrementCapacity
 		BRL .done
-	+ CPY.b #$58 : BNE + ; Upgrade-Only Sivler Arrows
+	+ CPY.b #$58 : BNE + ; Upgrade-Only Silver Arrows
 		JSR .incrementBow
 		BRL .done
 	+ CPY.b #$5E : BNE + ; Progressive Sword
@@ -527,6 +527,10 @@ AddInventory:
 	+ CPY.b #$61 : BNE + ; Progressive Lifting Glove
 		JSR .incrementA
 		BRL .done
+    + CPY.b #$64 : !BLT + ; Items $64 & $65 - Progressive Bow
+      CPY.b #$66 : !BGE +
+        JSR .incrementBow
+        BRL .done
 	+ CPY.b #$70 : !BLT + ; Items $70 - $7F - Free Maps
 	  CPY.b #$80 : !BGE +
 		JSR .incrementMap

@@ -4,6 +4,7 @@
 
 ; Hook initial drawing of pause screen to draw keycards status on BG3
 ; and make sure it draws only on the map screen and not equipment screen
+{% if keycards %}
 org $C28D47
 base $828D47
     jsl keycard_update_layer3
@@ -19,6 +20,7 @@ base $8291D9
 org $C2933A
 base $82933A
     jsl keycard_restore_vars
+{% endif %}
 
 ; Redirect the grey door preinstruction list so we can customize it
 org $c4be43

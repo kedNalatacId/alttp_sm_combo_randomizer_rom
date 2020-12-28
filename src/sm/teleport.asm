@@ -51,10 +51,10 @@ sm_do_teleport:
     iny
     cpy #$0032
     bne -
-    
+
     lda #$001c                      ; Add transition to ALTTP
     jsl inc_stat
-    
+
     jsl $8085c6                     ; Save map data
 
     lda #$0000
@@ -82,37 +82,37 @@ sm_teleport_table:
         db $00, $05, $00, $0a, $00, $20, $22, $10, $00, $00, $08, $00, $f8, $ff, $02, $00
         db $fe, $ff
 
-    ; Maridia missile refill -> Dark world ice rod cave (right) a894  
-    dw $a8f4, $010e, $0040 
+    ; Maridia missile refill -> Dark world ice rod cave (right) a894
+    dw $a8f4, $010e, $0040
         db $77, $00, $16, $00, $00, $0c, $22, $0e, $47, $0c, $98, $0e, $77, $00, $86, $00
         db $6f, $0c, $a3, $0e, $00, $0c, $1e, $0d, $00, $0e, $00, $0f, $20, $0b, $00, $0e
         db $00, $0d, $00, $10, $00, $21, $40, $19, $00, $00, $00, $00, $00, $00, $0e, $00
         db $f2, $ff
 
     ; LN GT refill -> Misery mire right side fairy              98a6
-    dw NewLNRefillDoorData_exit, $0115, $0040 
-        db $70, $00, $16, $01, $64, $0c, $36, $01, $c7, $0c, $b8, $01, $70, $00, $26, $03          
+    dw NewLNRefillDoorData_exit, $0115, $0040
+        db $70, $00, $16, $01, $64, $0c, $36, $01, $c7, $0c, $b8, $01, $70, $00, $26, $03
         db $d3, $0c, $c1, $01, $00, $0c, $1e, $0f, $00, $00, $00, $03, $20, $0b, $00, $10
         db $00, $ff, $00, $04, $00, $21, $42, $16, $00, $00, $0a, $00, $f6, $ff, $fa, $ff
         db $06, $00
-    
+
     dw $0000
 
 
 ; This must be placed below $8000 in a bank due to SM music upload code changes
 alttp_spc_data:        ; Upload this data to the SM music engine to kill it and put it back into IPL mode
     dw $002a, $15a0
-    db $8f, $6c, $f2 
+    db $8f, $6c, $f2
     db $8f, $e0, $f3 ; Disable echo buffer writes and mute amplifier
-    db $8f, $7c, $f2 
+    db $8f, $7c, $f2
     db $8f, $ff, $f3 ; ENDX
-    db $8f, $7d, $f2 
+    db $8f, $7d, $f2
     db $8f, $00, $f3 ; Disable echo delay
-    db $8f, $4d, $f2 
+    db $8f, $4d, $f2
     db $8f, $00, $f3 ; EON
-    db $8f, $5c, $f2 
+    db $8f, $5c, $f2
     db $8f, $ff, $f3 ; KOFF
-    db $8f, $5c, $f2 
+    db $8f, $5c, $f2
     db $8f, $00, $f3 ; KOFF
     db $8f, $80, $f1 ; Enable IPL ROM
     db $5f, $c0, $ff ; jmp $ffc0

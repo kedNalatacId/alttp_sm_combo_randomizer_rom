@@ -105,6 +105,7 @@ incsrc stats.asm
 incsrc textskip_functions.asm
 incsrc itemtext.asm
 incsrc textrenderer.asm
+incsrc quickswap.asm
 warnpc $b8ffff
 
 org $1C8000 ; text tables for translation
@@ -473,6 +474,9 @@ HUD_RebuildIndoor_Palace:
 
 org $0EEE10
 Messaging_Text:
+
+org $1BD6AA
+Palette_Magic:
 
 org $1BED03
 Palette_Sword:

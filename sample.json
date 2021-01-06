@@ -49,14 +49,5 @@
 
     // "output" -- not meant to be used here (called from SMZ3Randomizer with --AutoIPS)
     // sets the output file that will be written
-    "output": "/tmp/ips",
-
-    // "cleanup" -- Whether to clean up the built files or not (00.sfc, ff.sfc, and the templates)
-    // useful when doing development to see how the resultant templates
-    "cleanup": true,
-
-    // "zzz" -- not meant to be used here; is used for debugging
-    // Lists how the options were parsed post-parsing and then quits
-    //       (does not generate an IPS file)
-    "zzz": false
+    "output": "/tmp/ips"
 }

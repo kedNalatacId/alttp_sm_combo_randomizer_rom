@@ -15,7 +15,7 @@ import pprint
 import random
 
 # because command line parsing is never exactly how i want it...
-asar_def = 'asar' if platform.os == 'Windows' else './asar'
+asar_def = 'asar' if platform.system() == 'Windows' else './asar'
 defaults = {
     'asar': asar_def,
     'cards': True,
@@ -98,7 +98,7 @@ def parse_args():
         # cli args take precedence, so don't just merge
         for key in json_conf:
             if key not in args or args[key] == '__unset':
-                if isinstance(json_conf[key], str):
+                if isinstance(json_conf[key], str) and key != 'asar':
                     args[key] = json_conf[key].lower()
                 else:
                     args[key] = json_conf[key]

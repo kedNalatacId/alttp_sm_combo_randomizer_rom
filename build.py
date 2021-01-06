@@ -1,16 +1,23 @@
 #!/usr/bin/env python3
-import os
+
 import sys
+if (sys.version_info[0] < 3):
+    print("build.py must be run with python 3")
+    sys.exit(0)
+
+import os
 import json
 import argparse
+import platform
 import pathlib
 import jinja2
 import pprint
 import random
 
 # because command line parsing is never exactly how i want it...
+asar_def = 'asar' if platform.os == 'Windows' else './asar'
 defaults = {
-    'asar': './asar',
+    'asar': asar_def,
     'cards': True,
     'cleanup': True,
     'energybeep': True,
@@ -20,7 +27,7 @@ defaults = {
     'map': True,
     'mapreveal': False,
     'quickswap': False,
-    'output': 'build/zsm.ips',
+    'output': os.path.join('build', 'zsm.ips'),
     'surprise_me': False,
 }
 
@@ -57,7 +64,7 @@ def keyshuffle_levels(arg):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Build SMZ3 IPS')
-    parser.add_argument('--asar', default='__unset', help='Location of asar binary (default is ./asar)')
+    parser.add_argument('--asar', default='__unset', help='Location of asar binary (default is {})'.format(asar_def))
     parser.add_argument('--config', help="JSON config file")
     parser.add_argument('-k', '--keyshuffle', default='__unset', help="Keysanity level, currently between 1-15; default is (15) all on")
     parser.add_argument('-c', '--cards', default='__unset', action='store_true', help="Use Keycards; default is true")
@@ -151,12 +158,13 @@ def surprise_me(o):
 # Not stealing this into here, too long
 # Could glob this to find it instead, TBD if that's worthwhile
 def build_sm_sprites():
-    os.system('python3 src/sm/sprite/data/build/build.py');
+    build_path = os.path.join('src','sm','sprite','data','build','build.py')
+    os.system(sys.executable + ' ' + build_path)
 
 # provably the same as the below legacy function:
 # python3 create_dummies.py 00.sfc ff.sfc
 def create_dummy(byte):
-    fn = 'build/{}{}.sfc'.format(byte, byte)
+    fn = os.path.join('build', '{}{}.sfc'.format(byte, byte))
     with open(fn, 'wb') as fd:
         fd.write(bytes([int("0x{}{}".format(byte, byte), 16)] * 1024 * 1024 * 6))
     return fn
@@ -171,12 +179,12 @@ def compile_templates(opts):
         env = jinja2.Environment(loader=jinja2.FileSystemLoader(base_path))
         tmpl = env.get_template(base_file).render(opts)
 
-        with open("{}/{}".format(base_path, asm_file), 'w') as asm:
+        with open(os.path.join(base_path, asm_file), 'w') as asm:
             asm.write(tmpl)
 
 def compile_asm(bin, zero, ff):
-    os.system('{} --no-title-check --symbols=wla --symbols-path=build/zsm.sym src/main.asm {}'.format(bin, zero))
-    os.system('{} --no-title-check --symbols=wla --symbols-path=build/zsm.sym src/main.asm {}'.format(bin, ff))
+    os.system('{} --no-title-check --symbols=wla --symbols-path={} {} {}'.format(bin, os.path.join('build', 'zsm.sym'), os.path.join('src', 'main.asm'), zero))
+    os.system('{} --no-title-check --symbols=wla --symbols-path={} {} {}'.format(bin, os.path.join('build', 'zsm.sym'), os.path.join('src', 'main.asm'), ff))
 
 # this was short enough, stealing into this to reduce number of scripts to run
 # [also updated to python3 syntax]
@@ -221,7 +229,7 @@ def cleanup(zero, ff):
     os.remove(zero)
     os.remove(ff)
     # WIP: remove symbol table? Seems like a good thing?
-    #os.remove('build/zsm.sym')
+    #os.remove(os.path.join('build', 'zsm.sym'))
 
     # remove the .asm files so they don't get used next time accidentally
     # would rather fail than use the wrong file
@@ -229,7 +237,7 @@ def cleanup(zero, ff):
         base_path = os.path.dirname(os.path.realpath(asm_tmpl))
         base_file = os.path.basename(os.path.realpath(asm_tmpl))
         asm_file  = os.path.splitext(base_file)[0]
-        os.remove("{}/{}".format(base_path, asm_file))
+        os.remove(os.path.join(base_path, asm_file))
 
 # because python
 if __name__ == '__main__':

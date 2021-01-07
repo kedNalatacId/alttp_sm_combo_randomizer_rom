@@ -1498,7 +1498,7 @@ tilemap_data:
     dw " total time                     "
     dw "                                "
 .collection_rate
-    dw " COLLECTED ITEMS        316/316 "
+    dw " COLLECTED ITEMS                "
     dw " collected items                "
     dw "                                "
     dw "                                "

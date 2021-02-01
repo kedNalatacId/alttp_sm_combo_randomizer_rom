@@ -1,9 +1,7 @@
 ; Super Metroid Randomizer Changes and Fixes
 ;
 
-{% if skip_g4_cutscene %}
-incsrc g4_skip.asm
-{% endif %}
+{% if skip_g4_cutscene %}incsrc g4_skip.asm{% endif %}
 incsrc wake_zebes.asm
 incsrc patches.asm
 incsrc tracking.asm

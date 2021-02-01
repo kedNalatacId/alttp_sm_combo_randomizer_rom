@@ -1,10 +1,13 @@
 ; Check for specific door and teleport to ALTTP
 ;
 
+{% if mode == 'smz3' %}
 org $c2e2fa
     jsl sm_check_teleport
+{% endif %}
 
 org $f24000
+{% if mode == 'smz3' %}
 sm_check_teleport:
     phx
     pha
@@ -97,8 +100,9 @@ sm_teleport_table:
         db $06, $00
 
     dw $0000
+{% endif %}
 
-
+{# This data  still has to be loaded even if we're only playing SM #}
 ; This must be placed below $8000 in a bank due to SM music upload code changes
 alttp_spc_data:        ; Upload this data to the SM music engine to kill it and put it back into IPL mode
     dw $002a, $15a0

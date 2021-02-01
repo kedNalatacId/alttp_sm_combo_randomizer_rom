@@ -7,11 +7,11 @@ config_flags:
 config_multiworld:  ; $F47000
     dw #$0000
 
-; Custom sprite enabled?
+; Custom sprite enabled? This enables sprite author credits
 config_alttp_sprite: ; $F47002
-    dw #$0000
+    dw #${% if z3spriteauthor != '' and mode == 'smz3' %}0001{% else %}0000{% endif %}
 config_sm_sprite:    ; $F47004
-    dw #$0000
+    dw #${% if smspriteauthor != '' %}0001{% else %}0000{% endif %}
 
 
 ; Enables keysanity specific code sections.

@@ -26,9 +26,13 @@ defaults = {
     'keyshuffle': 15,
     'map': True,
     'mapreveal': False,
+    'mode': 'smz3',
     'quickswap': False,
     'output': os.path.join('build', 'zsm.ips'),
+    'skipz3title': True,
+    'smspriteauthor': '',
     'surprise_me': False,
+    'z3spriteauthor': '',
 }
 
 def main():
@@ -36,8 +40,12 @@ def main():
     if (opts['surprise_me']):
         opts = surprise_me(opts)
 
+    if (opts['mode'] == 'smz3'):
+        print("Building Super Metroid + Zelda 3 Randomizer")
+    elif (opts['mode'] == 'sm'):
+        print("Building Super Metroid Randomizer")
+
     # setup
-    print("Building Super Metroid + Zelda 3 Randomizer")
     build_sm_sprites()
     compile_templates(opts)
 
@@ -79,10 +87,15 @@ def parse_args():
     parser.add_argument('--no-map', dest='map', action='store_false')
     parser.add_argument('--mapreveal', default='__unset', action='store_true', help="Reveal map with bomb shop / Sahash (default: off)")
     parser.add_argument('--no-mapreveal', dest='mapreveal', action='store_false')
+    parser.add_argument('--mode', default='__unset', help='Build Mode; any of "sm", "z3", or "smz3". Defaults to "smz3"')
     parser.add_argument('--quickswap', default='__unset', action='store_true', help="Enable Zelda Quick Swap via L+R buttons")
     parser.add_argument('--no-quickswap', dest='quickswap', action='store_false')
     parser.add_argument('-o', '--output', default='__unset', help="Place to store IPS file (default is build/zsm.ips)")
+    parser.add_argument('--skipz3title', action='store_true', help="Skip Zelda Title Screen")
+    parser.add_argument('--no-skipz3title', dest='skipz3title', action='store_false')
+    parser.add_argument('--smspriteauthor', default='__unset', help="Name of the Metroid Sprite Author");
     parser.add_argument('--surprise_me', action='store_true', help="Randomize customization settings")
+    parser.add_argument('--z3spriteauthor', default='__unset', help="Name of the Zelda Sprite Author");
     parser.add_argument('-z', '--zzz', action='store_true', help=argparse.SUPPRESS)
 
     # there's no use for "unknown" args at this time, but just in case we add one...
@@ -148,6 +161,10 @@ def surprise_me(o):
     o['skip_g4_cutscene'] = True
     if (random.randint(0, 9) < 2):
         o['skip_g4_cutscene'] = False
+
+    o['skipz3title'] = True
+    if (random.randint(0, 9) < 2):
+        o['skipz3title'] = False
 
     o['quickswap'] = True
     if (random.randint(0, 9) < 2):

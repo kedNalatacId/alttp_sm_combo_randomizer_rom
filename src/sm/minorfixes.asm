@@ -43,28 +43,28 @@ org $cfed00
 NewLNRefillRoom:
 ; Room $ED00: Header
 .header
-	db $39, $02, $15, $0F, $01, $01, $70, $A0, $00 
+	db $39, $02, $15, $0F, $01, $01, $70, $A0, $00
 	dw .doors, $E5E6
 
 .state
 ; Room $ED00: Default State
-	dl $CE8FA6 
+	dl $CE8FA6
 	db $17, $00, $03
 	dw $87BA, $A623, $8777, $0000, $0000, $0000, $0000, $8D9C, $0000, $91F7
 
 .doors
 ; Room $ED00: Door list
     dw $98A6 				; Back to Screw attack room
-	dw NewLNRefillDoorData_exit 	; New door leading out to ALTTP
-	
+    dw NewLNRefillDoorData_exit 	; New door leading out to ALTTP
+
 org $c3ae00
 NewLNRefillDoorData:
 ; New door table data for the added door
 .exit
-	dw $AFFB : db $00, $04, $01, $06, $00, $00 : dw $8000, $0000
+    dw $AFFB : db $00, $04, $01, $06, $00, $00 : dw $8000, $0000
 .entry
-	dw NewLNRefillRoom : db $00, $05, $0E, $06, $00, $00 : dw $8000, $0000
+    dw NewLNRefillRoom : db $00, $05, $0E, $06, $00, $00 : dw $8000, $0000
 
 ; Repoint screw attack door into the new room
 org $c39a7a
-	dw NewLNRefillRoom
+    dw NewLNRefillRoom

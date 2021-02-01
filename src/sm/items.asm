@@ -159,7 +159,6 @@ item_graphics:
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; EE - Unused
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; EF - Unused
 
-
     ; ALTTP (00-AF)
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 00 Dummy - L1SwordAndShield        
     dw $CA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 01 Master Sword
@@ -375,7 +374,6 @@ sm_item_table:
     dw $89A9, $0005, $0000, $0001, $0000, $0000, $E0CA, #p_missile_hloop    ; Missiles
     dw $89D2, $0005, $0000, $0002, $0000, $0000, $E0EF, #p_super_hloop      ; Super Missiles
     dw $89FB, $0005, $0000, $0003, $0000, $0000, $E114, #p_pb_hloop         ; Power Bombs
-
 
 progressive_items:
     db $5e, $59, $04, $49, $01, $02, $03, $00     ; Progressive sword
@@ -1124,6 +1122,10 @@ alttp_item_pickup:
     adc !SRAM_ALTTP_ITEM_BUF, x
     sta !SRAM_ALTTP_ITEM_BUF, x
     cpx #$007C : bne + : sta !SRAM_ALTTP_ITEM_BUF+$1, x ; Store Hyrule keys to sewer keys
++   lda !SRAM_ALTTP_SMALLKEY_BUF-$7C, x ; Subtract base offset 0x7C to get index into dungeon small key stats buffer
+    inc a
+    sta !SRAM_ALTTP_SMALLKEY_BUF-$7C, x
+    cpx #$007C : bne + : sta !SRAM_ALTTP_SMALLKEY_BUF-$7C+$1, x ; Store Sewer keys to Hyrule Castle keys
 +   plx
     %a16()
     lda $c7

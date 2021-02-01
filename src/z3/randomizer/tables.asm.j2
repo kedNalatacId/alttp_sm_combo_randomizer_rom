@@ -117,7 +117,6 @@ db #${% if heartbeep is defined and heartbeep %}{% if heartbeep == "off" %}00{% 
 ;--------------------------------------------------------------------------------
 ; z3HeartColor
 {%- if heartcolor is defined and heartcolor != "red" %}
-
 ; HUD values
 {#- jinja doesn't do hex arithmetic that i'm aware of? #}
 {%- set locs = [ "4DFA1E", "4DFA20", "4DFA22", "4DFA24", "4DFA26", "4DFA28", "4DFA2A", "4DFA2C", "4DFA2E", "4DFA30" ] %}
@@ -125,7 +124,6 @@ db #${% if heartbeep is defined and heartbeep %}{% if heartbeep == "off" %}00{% 
 org ${{ loc }}
 db #${% if heartcolor == "yellow" %}28{% elif heartcolor == "blue" %}2C{% elif heartcolor == "green" %}3C{% else %}24{% endif %}
 {%- endfor %}
-
 ; file select
 org $5BD6AA
 db #${% if heartcolor == "yellow" %}BC{% elif heartcolor == "blue" %}C9{% elif heartcolor == "green" %}04{% else %}18{% endif %}
@@ -152,7 +150,7 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $40003B ; PC 0x18003B - PC 0x18003C
 MapMode:
-db #$01 ; #$00 = Always On (default) - #$01 = Require Map Item
+db #${% if mapreveal %}00{% else %}01{% endif %} ; #$00 = Always On (default) - #$01 = Require Map Item
 CompassMode:
 db #$01 ; #$00 = Off (default) - #$01 = Display Dungeon Count w/Compass - #$02 = Display Dungeon Count Always
 ;--------------------------------------------------------------------------------
@@ -824,10 +822,10 @@ dw #$000A ; #$000A = 10 (Default)
 ;================================================================================
 org $40017A ; PC 0x18017A ; #$2000 for Eastern Palace
 MapReveal_Sahasrahla:
-dw #${% if mapreveal %}2000{% else %}0000{% endif %}
+dw #$0000
 org $40017C ; PC 0x18017C ; #$0140 for Ice Palace and Misery Mire
 MapReveal_BombShop:
-dw #${% if mapreveal %}0140{% else %}0000{% endif %}
+dw #$0000
 ;================================================================================
 org $40017E ; PC 0x18017E
 Restrict_Ponds:
@@ -1311,7 +1309,7 @@ db $04
 ;62:RNG Pool Item (Single)
 ;63:RNG Pool Item (Multi)
 
-;64:Progressive Bow ; incorrect, see 3A/3B (WIP)
+;64:Progressive Bow
 ;65:Progressive Bow
 
 ;6A:Goal Item (Single/Triforce)

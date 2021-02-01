@@ -64,13 +64,13 @@ init:
     sta !SRAM_CURRENT_GAME
 
     ; Clear all PPU registers
-	ldx #$0001
+    ldx #$0001
 -           	; loop over ppu registers $2101-$2133
-	stz $00,x   ; write 0 to direct page ($2100) + x
-	stz $00,x   ; some registers need to be written twice
-	inx
-	cpx #$0034    ; while x < $33 ($2133)
-	bne -
+    stz $00,x   ; write 0 to direct page ($2100) + x
+    stz $00,x   ; some registers need to be written twice
+    inx
+    cpx #$0034    ; while x < $33 ($2133)
+    bne -
 
     ; Restore zero page
     %ai16()
@@ -168,7 +168,6 @@ init:
     ; Turn NMI back on
     lda #$80
     sta $4200
-
 
 
 .loop
@@ -1078,6 +1077,7 @@ stats:
     dw tilemap_data_supermissiles,              $0000,  $0017,  $0001
     dw tilemap_data_powerbombs,                 $0000,  $0018,  $0001
     dw tilemap_data_bombs,                      $0000,  $001a,  $0001
+{% if mode == 'smz3' %}
     dw tilemap_data_alttp_first_sword,          $0001,  $0458,  $0003
     dw tilemap_data_alttp_pegasus_boots,        $0001,  $045c,  $0003
     dw tilemap_data_alttp_flute,                $0001,  $0460,  $0003
@@ -1097,8 +1097,9 @@ stats:
     dw tilemap_data_alttp_transitions,          $0000,  $001c,  $0001
     dw tilemap_data_alttp_total_time,           $0001,  $043e,  $0003
     dw tilemap_data_sm_total_time,              $0000,  $0000,  $0003
+{% endif %}
     dw tilemap_data_total_time,                 $0000,  $001e,  $0003
-    dw tilemap_data_collection_rate,            $0000,  $001d,  $0001
+    dw tilemap_data_collection_rate,            $0000,  $001d,  $0001   ; #36
     dw $0000
 
 
@@ -1227,8 +1228,13 @@ tilemap_data:
     dw "       ALTTP CUSTOM SPRITE      "
     !BIG
     dw "                                "
+{%- if z3spriteauthor != "" %}
+    dw " {{ z3spriteauthor | upper | center(30) }} "
+    dw " {{ z3spriteauthor | lower | center(30) }} "
+{%- else %}
     dw "                                "
     dw "                                "
+{%- endif %}
     dw "                                "
     dw "                                "
 .sm_sprite_credits
@@ -1236,8 +1242,13 @@ tilemap_data:
     dw "  SUPER METROID CUSTOM SPRITE   "
     !BIG
     dw "                                "
+{%- if smspriteauthor != "" %}
+    dw " {{ smspriteauthor | upper | center(30) }} "
+    dw " {{ smspriteauthor | lower | center(30) }} "
+{%- else %}
     dw "                                "
     dw "                                "
+{%- endif %}
     dw "                                "
     dw "                                "
 .end_sprite_credits
@@ -1383,6 +1394,7 @@ tilemap_data:
     dw "                                "
     dw "                                "
     dw "                                "
+{% if mode == 'smz3' %}
     dw "                                "
     !YELLOW
     dw "       A LINK TO THE PAST       "
@@ -1434,12 +1446,14 @@ tilemap_data:
     dw " gold sword                     "
     dw "                                "
     dw "                                "
+{% endif %}
 
     !PURPLE
     dw "           GAME STATS           "
     dw "                                "
     !BIG
 
+{% if mode == 'smz3' %}
 .alttp_gtbigkey
     dw " GANON'S TOWER BIG KEY          "
     dw " ganon s tower big key          "
@@ -1492,6 +1506,7 @@ tilemap_data:
 .sm_total_time
     dw " TIME IN SM         00'00'00^00 "
     dw " time in sm                     "
+{% endif %}
     dw "                                "
 .total_time
     dw " TOTAL TIME         00'00'00^00 "

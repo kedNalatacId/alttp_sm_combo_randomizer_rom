@@ -27,9 +27,14 @@ defaults = {
     'map': True,
     'mapreveal': False,
     'mode': 'smz3',
+    'new_screw': True,
+    'persistent_floodgate': False,
     'quickswap': False,
+    'oldcards': False,
     'output': os.path.join('build', 'zsm.ips'),
+    'seed': 0,
     'skipz3title': True,
+    'skip_g4_cutscene': True,
     'smspriteauthor': '',
     'surprise_me': False,
     'z3spriteauthor': '',
@@ -88,11 +93,18 @@ def parse_args():
     parser.add_argument('--mapreveal', default='__unset', action='store_true', help="Reveal map with bomb shop / Sahash (default: off)")
     parser.add_argument('--no-mapreveal', dest='mapreveal', action='store_false')
     parser.add_argument('--mode', default='__unset', help='Build Mode; any of "sm", "z3", or "smz3". Defaults to "smz3"')
+    parser.add_argument('--newcards', dest='oldcards', action='store_false')
+    parser.add_argument('--oldcards', default='__unset', action='store_true', help="Whether to use new or old card graphics")
+    parser.add_argument('--persistent_floodgate', default='__unset', action='store_true', help="Persistent Floodgate for the dam")
+    parser.add_argument('--no-persistent_floodgate', dest='persistent_floodgate', action='store_false')
     parser.add_argument('--quickswap', default='__unset', action='store_true', help="Enable Zelda Quick Swap via L+R buttons")
     parser.add_argument('--no-quickswap', dest='quickswap', action='store_false')
     parser.add_argument('-o', '--output', default='__unset', help="Place to store IPS file (default is build/zsm.ips)")
+    parser.add_argument('--seed', default=0, help="Seed initialization vector")
     parser.add_argument('--skipz3title', action='store_true', help="Skip Zelda Title Screen")
     parser.add_argument('--no-skipz3title', dest='skipz3title', action='store_false')
+    parser.add_argument('--skip_g4_cutscene', action='store_true', help="Skip Gold Four Statue Cutscene")
+    parser.add_argument('--no-skip_g4_cutscene', dest='skip_g4_cutscene', action='store_false')
     parser.add_argument('--smspriteauthor', default='__unset', help="Name of the Metroid Sprite Author");
     parser.add_argument('--surprise_me', action='store_true', help="Randomize customization settings")
     parser.add_argument('--z3spriteauthor', default='__unset', help="Name of the Zelda Sprite Author");
@@ -134,6 +146,29 @@ def parse_args():
     return args
 
 def surprise_me(o):
+    if (int(o['seed']) > 0):
+        random.seed(int(o['seed']))
+    else:
+        random.seed()
+
+    # These three items need to be chosen the same for all players
+    o['persistent_floodgate'] = False
+    if (random.randint(0, 9) < 2):
+        o['persistent_floodgate'] = True
+
+    o['skip_g4_cutscene'] = True
+    if (random.randint(0, 9) < 2):
+        o['skip_g4_cutscene'] = False
+
+    o['skipz3title'] = True
+    if (random.randint(0, 9) < 2):
+        o['skipz3title'] = False
+
+    o['quickswap'] = True
+    if (random.randint(0, 9) < 2):
+        o['quickswap'] = False
+
+    # Anything from here down can be different per person
     random.seed()
 
     o['show_map'] = True
@@ -148,6 +183,10 @@ def surprise_me(o):
     if (random.randint(0, 1) < 1):
         o['new_screw'] = False
 
+    o['oldcards'] = False
+    if (random.randint(0, 1) < 1):
+        o['oldcards'] = True
+
     o['energybeep'] = True
     if (random.randint(0, 1) < 1):
         o['energybeep'] = False
@@ -157,18 +196,6 @@ def surprise_me(o):
 
     color = ['red', 'green', 'blue', 'yellow']
     o['heartcolor'] = color[random.randint(0, 3)]
-
-    o['skip_g4_cutscene'] = True
-    if (random.randint(0, 9) < 2):
-        o['skip_g4_cutscene'] = False
-
-    o['skipz3title'] = True
-    if (random.randint(0, 9) < 2):
-        o['skipz3title'] = False
-
-    o['quickswap'] = True
-    if (random.randint(0, 9) < 2):
-        o['quickswap'] = False
 
     return o
 

@@ -1,53 +1,5 @@
 {
-    // This file includes JSON comments, which usually don't work
-    // You must edit this file (or make your own)
-    // More options will be added over time as more of the code is combed through
-
-    // Path to your asar bin; default is current directory ("./asar")
-    "asar": "/usr/local/bin/asar",
-
-    // keyshuffle -- not meant to be used here (called from SMZ3Randomizer)
-    // This is a simple bitmask:
-    //      1 == maps
-    //      2 == compasses
-    //      4 == small keys
-    //      8 == big keys
-    // So for ALTTPRs "MCS" mode where big keys are still in their respective dungeons:
-    "keyshuffle": 7,
-
-    // keycards -- not meant to be used here (called from SMZ3Randomizer)
-    "cards": true,
-
-    // map -- whether the Super Metroid is filled in by default
-    "map": true,
-
-    // mapreveal -- whether Sahash and the bomb shop reveal their dungeons on the map
-    // WRANING: this may not work at this time; TBD
-    "mapreveal": false,
-
-    // noenergybeep -- turns off SM energy beep
-    "noenergybeep": false,
-
-    // heartbeep -- Zelda's heart beep speed; values can be numbers or words:
-    // 00 or "off"
-    // 20 or "normal"
-    // 40 or "half"
-    // 80 or "quarter"
-    "heartbeep": 20,
-
-    // quickswap -- turns on Zelda quick swap using the shoulder buttons (L+R)
+    "asar": "C:\Users\test\asar\asar",
     "quickswap": true,
-
-    // "surprise_me" -- changes various cosmetic things randomly
-    // WARNING: some of these are game impacting! (may slow you down, such as the G4 statue)
-    // WARNING: surprise mode will over-ride/ignore any flag under it's purview
-    //          (so you can't turn on this and be sure that quickswap will be
-    //              enabled; the quickswap flag will be overriden if this is on)
-    // A NOTE: surprise mode has weighted randomization; some things are more likely
-    //         to be on than off (like quickswap), etc
-    "surprise_me": true,
-
-    // "output" -- not meant to be used here (called from SMZ3Randomizer with --AutoIPS)
-    // sets the output file that will be written
-    "output": "/tmp/ips"
+    "surprise_me": true
 }

@@ -67,7 +67,4 @@ A number of changes have occurred between Tewtal's original version and here.
 
 7. Removed various amounts of unneeded whitespace and changed various tabs to spaces
 
-8. progressive bow is sort-of here
-    - works in Zelda
-    - broken in Metroid
-    - probably best not to use it
+8. progressive bow works

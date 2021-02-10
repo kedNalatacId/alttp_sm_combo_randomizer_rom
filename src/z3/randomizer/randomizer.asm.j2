@@ -134,7 +134,7 @@ warnpc $504000
 
 org $504000
 GFX_SM_Items:
-incbin data/newitems_sm.gfx
+incbin data/newitems{% if oldcards %}_oldcards{% endif %}_sm.gfx
 warnpc $508000
 
 

@@ -174,7 +174,7 @@ endmacro
 ; 			LDA GoalItemRequirement : BEQ ++
 ; 			LDA !GOAL_COUNTER : INC : STA !GOAL_COUNTER
 ; 			CMP GoalItemRequirement : !BLT ++ : JSL.l ActivateGoal : ++
-			
+
 ; 			LDX.b #$01 : BRA .done
 ; 		+
 ; 		LDX.b #$00
@@ -188,7 +188,7 @@ endmacro
 ;--------------------------------------------------------------------------------
 AddReceivedItemExpandedGetItem:
 	PHX
-	
+
 	;JSR.w ProcessEventItems : CPX.b #$00 : BEQ ++
 	;	;JSL.l Main_ShowTextMessage
 	;	LDA !GOAL_COUNTER : INC : STA !GOAL_COUNTER
@@ -210,16 +210,16 @@ AddReceivedItemExpandedGetItem:
 	pla : pla : pla ; Align the stack by popping the return value off it (so we can JML instead of RTL)
 
 	lda $02e9 : cmp #$01 : bne .notChest
-	
+
 	lda $72 : pha
 	lda $73 : pha
 
 	.notChest
 	ldy #$01
-	
+
 	lda $02d8 : cmp #$20 : bne .notCrystal
 	ldy #$02
-	
+
 	.notCrystal
 	tya : sta $02e4
 
@@ -344,7 +344,7 @@ AddReceivedItemExpandedGetItem:
 	+ CMP.b #$A0 : !BLT .done : CMP.b #$B0 : !BGE .done ; Free Small Key
 		AND #$0F : TAX
 		LDA $7EF37C, X : INC : STA $7EF37C, X ; Increment Key Count
-		
+
 		CPX.b #$00 : BNE ++
 			STA $7EF37D ; copy HC to sewers
 		++ : CPX.b #$01 : BNE ++
@@ -367,7 +367,7 @@ AddReceivedItemExpandedGetItem:
 		TXA : ASL : CMP $40C : BNE .done
 		LDA.l $7EF36F : INC : STA.l $7EF36F
 
-	.done	
+	.done
 	jsl alttp_receive_sm_item	; Check for SM items
 	PLX
 	LDA $02E9 : CMP.b #$01 ; thing we wrote over
@@ -396,13 +396,13 @@ AddReceivedItemExpanded:
 	PHA : PHX
 		;JSL.l PreItemGet
 		JSR EnableTemporaryCone
-		
+
 		LDA $02D8 ; Item Value
 		JSR AttemptItemSubstitution
 		STA $02D8
-		
+
 		JSR IncrementItemCounters
-			
+
 		CMP.b #$16 : BNE ++ ; Bottle
 			JSR.w CountBottles : CMP.l BottleLimit : !BLT +++
 				LDA.l BottleLimitReplacement : STA $02D8
@@ -535,7 +535,7 @@ AddReceivedItemExpanded:
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Free Compass
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Free Big Key
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Free Small Key
-	
+
 	; $B0 - SM Items
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Unused
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Unused
@@ -625,10 +625,10 @@ AddReceivedItemExpanded:
 
 	; #$B0 - SM Items
 	db $50, $51, $52, $53, $54, $55, $56, $57, $58, $59, $5A, $5B, $5C, $5D, $5E, $5F ; Super Metroid
-	
+
 	; #$C0 - SM Items
 	db $60, $61, $62, $63, $64, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49 ; Super Metroid
-	
+
 	; #$D0 - SM Items (Keycards)
 	db $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $67, $65, $67 ; Super Metroid
 
@@ -710,7 +710,7 @@ AddReceivedItemExpanded:
 	db  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ; Free Compass
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Free Big Key
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Free Small Key
-	
+
 	; #$B0 - SM Items
 	db  1, 5, 1, 2, 2, 4, 2, 2, 2, 1, 4, 1, 2, 2, 2, 4 ; SM Items #1
 	db  1, 1, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; SM Items #2
@@ -892,7 +892,7 @@ Link_ReceiveItemAlternatesExpanded:
 	PHB : PHK : PLB
 		;TYA : JSR IncrementItemCounters
 		;LDA Link_ReceiveItemAlternatesExpanded, Y : STA $03
-		;TYA : JSR AttemptItemSubstitution : STA $03 
+		;TYA : JSR AttemptItemSubstitution : STA $03
 		;CPY $03 : BNE + : LDA.b #$FF : STA $03 : +
 		lda.b #$ff : sta $03
 	PLB
@@ -928,7 +928,7 @@ RTL
 DrawHUDArrows:
 LDA.l ArrowMode : BEQ .normal
 	.rupee_arrows
-	
+
 	LDA $7EF377 : BEQ .none ; assuming silvers will increment this. if we go with something else, reorder these checks
 	LDA $7EF340 : BNE +
 	LDA !INVENTORY_SWAP_2 : AND.b #$40 : BNE .silver
@@ -1067,7 +1067,7 @@ AttemptItemSubstitution:
 	BEQ +
 	PLA : JSL alttp_multiworld_replace_item	; Replace item from multiworld table if needed
 	BRA .exit
-+	
++
 	PLA
 ; 	PHA
 ; 	LDX.b #$00
@@ -1083,7 +1083,7 @@ AttemptItemSubstitution:
 ; 				CMP.l ItemSubstitutionRules+1, X : !BLT +
 ; 					LDA.l ItemSubstitutionRules+2, X : STA 1,s
 ; 				+
-				
+
 ; 				BEQ .exit
 ; 			.noMatch
 ; 				INX #4
@@ -1092,7 +1092,7 @@ AttemptItemSubstitution:
 	PLX
 	RTS
 
-AttemptItemSubstitutionLong:	
+AttemptItemSubstitutionLong:
 	;JSR AttemptItemSubstitution
 	PHA : LDA config_multiworld : BEQ +
 	PLA
@@ -1106,24 +1106,33 @@ AttemptItemSubstitutionLong:
 ; Enables the light cone temporarily when picking up items in a dark room without the lamp
 ;
 EnableTemporaryCone:
-		LDA $7EC005 ; Check if dark room
-		BEQ +
-		LDA $7EF34A ; Check if we have lamp
-		BNE +
-		LDA $045A   ; Check if torches are lit
-		BNE +
+        LDA $7EC005 ; Check if dark room
+        BEQ +
+        LDA $7EF34A ; Check if we have lamp
+        BNE +
 
-		LDA #$01
-		STA $1D		; Enable color math for BG1
-		STA $0458	; Set the "Lamp in dark room flag" temporarily
-		JSL $00F568 ; JSL OrientLampBg - Updates BG1 scroll positions for the lamp cone
-		
-		REP #$20    ; Write the scroll positions to the PPU registers
-		LDA $E0 : STA $120 : STA $210D 
-		LDA $E6 : STA $124 : STA $210E
-		SEP #$20
+        REP #$20
+        LDA $7E00A0
+        CMP #$0055  ; Check if we're in secret passage
+        BEQ +
+        CMP #$0109  ; Check if we're in the potion shop
+        BEQ +       ; (check both bytes or problems will happen in PoD)
+        CMP #$00E4  ; Check if we're in old man's cave (the save location)
+        BEQ +
+        CMP #$010A  ; Check if we're in aginah's cave
+        BEQ +
+
+        LDA #$01
+        STA $1D		; Enable color math for BG1
+        STA $0458	; Set the "Lamp in dark room flag" temporarily
+        JSL $00F568 ; JSL OrientLampBg - Updates BG1 scroll positions for the lamp cone
+
+        ; Write the scroll positions to the PPU registers
+        LDA $E0 : STA $120 : STA $210D
+        LDA $E6 : STA $124 : STA $210E
 +
-		RTS
+        SEP #$20
+        RTS
 
 DisableTemporaryCone:
 		PHA
@@ -1138,7 +1147,7 @@ DisableTemporaryCone:
 		PLA
 		CMP #$02 : BEQ +
 		STZ $02E4
-+			
++
 		RTL
 
 ;--------------------------------------------------------------------------------

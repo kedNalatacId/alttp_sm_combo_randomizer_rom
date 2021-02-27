@@ -9,18 +9,6 @@ base $aaf800
 ; exit id in !SRAM_ALTTP_EXIT
 ; darkworld flag in !SRAM_ALTTP_DARKWORLD
 transition_to_zelda:
-
-    ; WIP -- wake zebes if we transition to zelda
-    ; (never get to gray door code)
-    ; lda $7ed872
-    ; bit #$0400
-    ; beq commence
-    ; lda $7ed820
-    ; ora.w #$0001
-    ; sta $7ed820
-    ; commence:
-    ; ENDWIP
-
     sei                         ; Disable IRQ's
 
     %a8()

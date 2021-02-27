@@ -8,7 +8,7 @@ base $82FB80
 Map_Labels_Hijack:
 ; PHA ; getting the keysanity flag in A, so let's preserve it first
 LDA config_keysanity ; check to see if this is keysanity
-BEQ After_Door_Icons ; if A is zero then skip the door icons
+{% if UseKeycards %}BEQ After_Door_Icons ; if A is zero then skip the door icons{% endif %}
 JSL Draw_Door_Icons
 After_Door_Icons:
 ; PLA

@@ -111,6 +111,7 @@ transition_to_sm:
 
     lda #$0001
     sta.l $7fff10               ; Set this transition to not count for stats
+    {% if mode == 'smz3' and zebes == 'asleep' %}sta $7ed820                 ; Make sure zebes is awake{% endif %}
 
     lda #$001b                  ; Add transition to SM
     jsl inc_stat

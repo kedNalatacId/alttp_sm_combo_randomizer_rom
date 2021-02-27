@@ -44,13 +44,14 @@ introskip_doorflags:
 
     ; Set up open mode event bit flags
     lda #$0001
-    sta $7ed820
+    {% if mode == 'smz3' and zebes == 'awake' %}sta $7ed820{% endif %}
     {% if mode == 'sm' %}sta.l !SRAM_ALTTP_COMPLETED{% endif %}
 
     lda #$0000
     sta.l !SRAM_SM_COMPLETED
     sta.l !SRAM_ALTTP_EQUIPMENT_1
     sta.l !SRAM_ALTTP_EQUIPMENT_2
+    {% if mode == 'sm' or zebes == 'asleep' %}sta $7ed820{% endif %}
     {% if mode == 'smz3' %}sta.l !SRAM_ALTTP_COMPLETED{% endif %}
     sta.l !SRAM_ALTTP_RANDOMIZER_SAVED
     sta.l !door_timer_tmp

@@ -29,22 +29,18 @@ macro write_map_visibility(start, x, y, value)
         db <value>
 endmacro
 
-; Write crateria portal icon
+{% if mode == 'smz3' -%}
+; Write portal icons
 %write_map_tile(CRATERIA_MAP, $14, $8, $0c1a)
+%write_map_tile(MARIDIA_MAP, $26, $09, $0c1a)
+%write_map_tile(NORFAIR_MAP, $09, $05, $4c1a)
+%write_map_tile(NORFAIR_MAP, $16, $10, $0c1a)
 
 ; Blank out inaccessible crateria room tiles
 %write_map_tile(CRATERIA_MAP, $15, $08, $0c1f)
 %write_map_tile(CRATERIA_MAP, $16, $08, $0c1f)
 %write_map_tile(CRATERIA_MAP, $17, $08, $0c1f)
 
-; Write maridia portal icon
-%write_map_tile(MARIDIA_MAP, $26, $09, $0c1a)
-
-; Write upper norfair portal icon
-%write_map_tile(NORFAIR_MAP, $09, $05, $4c1a)
-
-; Write lower norfair portal icon
-%write_map_tile(NORFAIR_MAP, $16, $10, $0c1a)
 ; Modify the norfair default visible map tiles to show the lower norfair portal
 %write_map_visibility(NORFAIR_VISIBLE, $16, $10, $02)
 
@@ -55,6 +51,7 @@ DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
 org $F68340
 DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
 DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+{% endif %}
 
 {% if show_map %}
 ; This fills in the bitfields responsible for triggering the

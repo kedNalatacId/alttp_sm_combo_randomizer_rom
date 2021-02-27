@@ -25,6 +25,7 @@ defaults = {
     'heartcolor': 'red',
     'keyshuffle': 15,
     'map': True,
+    'map_icons': True,
     'mapreveal': False,
     'mode': 'smz3',
     'new_screw': True,
@@ -38,6 +39,7 @@ defaults = {
     'smspriteauthor': '',
     'surprise_me': False,
     'z3spriteauthor': '',
+    'zebes': 'awake',
 }
 
 def main():
@@ -90,6 +92,8 @@ def parse_args():
     parser.add_argument('-k', '--keyshuffle', default='__unset', help="Keysanity level, currently between 1-15; default is (15) all on")
     parser.add_argument('-m', '--map', default='__unset', action='store_true', help="Show SM map; default is true")
     parser.add_argument('--no-map', dest='map', action='store_false')
+    parser.add_argument('--map_icans', default='__unset', action='store_true', help="Show Keycard map icons")
+    parser.add_argument('--no-map_icans', dest='map_icons', action='store_false')
     parser.add_argument('--mapreveal', default='__unset', action='store_true', help="Reveal map with bomb shop / Sahash (default: off)")
     parser.add_argument('--no-mapreveal', dest='mapreveal', action='store_false')
     parser.add_argument('--mode', default='__unset', help='Build Mode; any of "sm", "z3", or "smz3". Defaults to "smz3"')
@@ -109,6 +113,7 @@ def parse_args():
     parser.add_argument('--surprise_me', action='store_true', help="Randomize customization settings")
     parser.add_argument('--z3spriteauthor', default='__unset', help="Name of the Zelda Sprite Author");
     parser.add_argument('-z', '--zzz', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--zebes', default='__unset', help="Whether Zebes starts awake or not. Default to 'awake'");
 
     # there's no use for "unknown" args at this time, but just in case we add one...
     # go the safe route
@@ -175,6 +180,10 @@ def surprise_me(o):
     if (random.randint(0, 1) < 1):
         o['show_map'] = False
 
+    o['map_icons'] = True
+    if (random.randint(0, 9) < 6):
+        o['map_icons'] = False
+
     o['mapreveal'] = True
     if (random.randint(0, 1) < 1):
         o['mapreveal'] = False;
@@ -190,6 +199,10 @@ def surprise_me(o):
     o['energybeep'] = True
     if (random.randint(0, 1) < 1):
         o['energybeep'] = False
+
+    o['zebes'] = 'awake'
+    if (random.randint(0, 9) < 3):
+        o['zebes'] = 'asleep'
 
     beeps = ['00', '20', '40', '80']
     o['heartbeep'] = beeps[random.randint(0, 3)]
@@ -272,8 +285,7 @@ def cleanup(zero, ff):
     print("Cleaning up files")
     os.remove(zero)
     os.remove(ff)
-    # WIP: remove symbol table? Seems like a good thing?
-    #os.remove(os.path.join('build', 'zsm.sym'))
+    os.remove(os.path.join('build', 'zsm.sym'))
 
     # remove the .asm files so they don't get used next time accidentally
     # would rather fail than use the wrong file

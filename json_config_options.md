@@ -43,6 +43,11 @@ Unlike SMZ3's JSON config, this is a flat configuration file.
     - Ignored when surprise mode is set
     - Boolean
     - Whether the low health beep should play or not
+- map_icons
+    - Optional
+    - Ignored when surprise mode is set
+    - Boolean
+    - Whether or not keycard map icons appera on the SM map
 - oldcards
     - Optional
     - Ignored when surprise mode is set
@@ -54,6 +59,14 @@ Unlike SMZ3's JSON config, this is a flat configuration file.
     - IMPORTANT: This value is chosen by the global seed;
         it should be the same for all players
     - Skips the Golden Four Statue cut scene when heading to Tourian
+- zebes
+    - Optional
+    - Ignored when surprise mode is set
+    - Values are either "asleep" or "awake"
+    - Starts Zebes either asleep (like classic SM) or awake
+    - Zebes wakes up on any transition to Zelda
+    - The door to wake zebes is currently bottom of the climb heading into pit room
+        - goal is to move it to back of pit room (so that pit room is still asleep)
 
 ### Zelda-Specific Parameters
 

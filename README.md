@@ -11,6 +11,10 @@ The canonical method of running build.py is:
 
 You can look at example.json for a breakdown of all the options.
 
+This assembly can be used for either SMZ3 or SMR with keycards
+
+TODO: new keycards haven't yet been imported here... still using old keycards...
+
 -----
 
 A number of changes have occurred between Tewtal's original version and here.
@@ -68,3 +72,6 @@ A number of changes have occurred between Tewtal's original version and here.
 7. Removed various amounts of unneeded whitespace and changed various tabs to spaces
 
 8. progressive bow works
+
+9. Zebes can start asleep rather than awake for SMZ3
+

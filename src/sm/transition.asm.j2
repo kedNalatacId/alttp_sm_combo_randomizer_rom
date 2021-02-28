@@ -109,9 +109,14 @@ transition_to_sm:
     lda #$e29e
     sta $099c
 
+{% if mode == 'smz3' and zebes == 'asleep' -%}
+    lda $7ed820
+    ora.w #$0001
+    sta $7ed820
+{%- endif %}
+
     lda #$0001
     sta.l $7fff10               ; Set this transition to not count for stats
-    {% if mode == 'smz3' and zebes == 'asleep' %}sta $7ed820                 ; Make sure zebes is awake{% endif %}
 
     lda #$001b                  ; Add transition to SM
     jsl inc_stat
@@ -120,7 +125,6 @@ transition_to_sm:
 
     lda $84
     sta $4200                   ; Turn NMI/IRQ/Autojoypad read back on
-
 
     %ai16()
 

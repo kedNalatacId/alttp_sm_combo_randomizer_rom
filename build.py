@@ -181,7 +181,7 @@ def surprise_me(o):
         o['show_map'] = False
 
     o['map_icons'] = True
-    if (random.randint(0, 9) < 6):
+    if (o['keycards'] != true or random.randint(0, 9) < 6):
         o['map_icons'] = False
 
     o['mapreveal'] = True

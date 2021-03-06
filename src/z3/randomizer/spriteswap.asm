@@ -16,7 +16,7 @@ RTL
 
 org $c7f000
 base $87f000
-SwapSpriteIfNecissary:
+SwapSpriteIfNecessary:
 	PHP
 		SEP #$20 ; set 8-bit accumulator
 		LDA !SPRITE_SWAP : BEQ + : !ADD !BANK_BASE : CMP $BC : BEQ +

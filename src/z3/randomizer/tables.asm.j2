@@ -150,7 +150,7 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $40003B ; PC 0x18003B - PC 0x18003C
 MapMode:
-db #${% if mapreveal %}00{% else %}00{% endif %} ; #$00 = Always On (default) - #$01 = Require Map Item
+db #${% if mapreveal %}00{% else %}01{% endif %} ; #$00 = Always On (default) - #$01 = Require Map Item
 CompassMode:
 db #$00 ; #$00 = Off (default) - #$01 = Display Dungeon Count w/Compass - #$02 = Display Dungeon Count Always
 ;--------------------------------------------------------------------------------
@@ -176,6 +176,10 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 org $400040 ; PC 0x180040
 PreopenCurtains:
 db #$00 ; #$00 = Off (default) - #$01 = On
+;--------------------------------------------------------------------------------
+org $40008C ; (old)org $30808C ; PC 0x18008C
+PreopenGanonsTower:
+db $00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $400041 ; PC 0x180041
 AllowSwordlessMedallionUse:
@@ -267,6 +271,15 @@ CrystalPendantFlags_2:
 ;Crystal: $40
 ;--------------------------------------------------------------------------------
 ; 0x18005D - 0x18005F (unused)
+;--------------------------------------------------------------------------------
+; old -- org $30805E ; PC 0x18005E - Number of crystals required to enter GT
+org $40005E ; PC 0x18005E - Number of crystals required to enter GT
+NumberOfCrystalsRequiredForTower:
+db #$07 ; #$07 = 7 Crystals
+; old -- org $30805F ; PC 0x18005F - Number of crystals required to kill Ganon
+org $40005F ; PC 0x18005F - Number of crystals required to kill Ganon
+NumberOfCrystalsRequiredForGanon:
+db #$07 ; #$07 = 7 Crystals
 ;--------------------------------------------------------------------------------
 org $400060 ; PC 0x180060 - 0x18007E
 ProgrammableItemLogicJump_1:
@@ -437,7 +450,7 @@ org $08CAAE ; PC 0x44AAE
 ;--------------------------------------------------------------------------------
 org $05FBD2 ; PC 0x2FBD2 - sprite_mad_batter.asm:209 - (#$01)
 HalfMagic:
-db $01 ; #$01 = 1/2 Magic (default) - #$02 = 1/4 Magic
+db $0{% if magic == 'quarter' %}2{% else %}1{% endif %} ; #$01 = 1/2 Magic (default) - #$02 = 1/4 Magic
 ;--------------------------------------------------------------------------------
 org $07ADA7 ; PC 0x3ADA7 - Bank07.asm:7216 - (db 4, 8, 8)
 CapeMagicUse:
@@ -799,7 +812,7 @@ db #$01 ; #00 = Do not respawn on Pyramid after Death - #$01 = Respawn on Pyrami
 ;================================================================================
 org $400172 ; PC 0x180172
 GenericKeys:
-db #$00 ; #00 = Dungeon-Specific Keys (Default) - #$01 = Generic Keys
+db #$0{% if generickeys %}1{% else %}0{% endif %} ; #00 = Dungeon-Specific Keys (Default) - #$01 = Generic Keys
 ;================================================================================
 org $400173 ; PC 0x180173
 Bob:

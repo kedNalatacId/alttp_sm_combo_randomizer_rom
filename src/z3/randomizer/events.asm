@@ -11,7 +11,7 @@ OnDrawHud:
 	;JSL.l DrawChallengeTimer
 	;JSL.l DrawGoalIndicator
 	;JSL.l DrawDungeonCompassCounts
-	;JSL.l SwapSpriteIfNecissary
+	;JSL.l SwapSpriteIfNecessary
 RTL
 ;--------------------------------------------------------------------------------
 ;OnDungeonEntrance:
@@ -103,6 +103,9 @@ OnNewFile:
 			LDA.b #$80 : STA $7EF061 ; open aga tower curtain
 			LDA.b #$80 : STA $7EF093 ; open skull woods curtain
 		+
+        LDA.l PreopenGanonsTower : BEQ +
+            LDA.b #$20 : STA $7EF2C3 ; Ganons Tower already open
+        +
 		LDA StartingSword : STA $7EF359 ; set starting sword type
 	PLP : PLX
 RTL

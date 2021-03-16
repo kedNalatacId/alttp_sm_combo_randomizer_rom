@@ -1,3 +1,5 @@
+; a1:7330-7FD0    --              -- Randomizer SRAM --
+
 !SRAM_CURRENT_GAME = $a173fe
 !SRAM_DMA_RET = $a173e0 ; to $e12
 !SRAM_SAVING = $a173e4
@@ -17,6 +19,7 @@
 !SRAM_ALTTP_EQUIPMENT_2 = $a17505
 !SRAM_ALTTP_COMPLETED = $a17506
 !SRAM_ALTTP_CHECKSUM = $a17510 ; to $a17530
+!SRAM_ALTTP_FRESH_FILE = $a17550  ; used for first transition to ALTTP
 
 !SRAM_ALTTP_ITEM_BUF = $a17b00 ; to $a17bff
 !SRAM_ALTTP_RANDOMIZER_BUF = $a17c00

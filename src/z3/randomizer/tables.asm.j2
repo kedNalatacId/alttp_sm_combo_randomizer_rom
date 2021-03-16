@@ -177,9 +177,13 @@ org $400040 ; PC 0x180040
 PreopenCurtains:
 db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
+org $40008B ; AKA "Fast Ganon" -- PC 0x18008B
+PreopenPyramidHole:
+db #${% if fastganon %}01{% else %}00{% endif %} ; #$00 = Off ( default) - #$01 = On
+;--------------------------------------------------------------------------------
 org $40008C ; (old)org $30808C ; PC 0x18008C
 PreopenGanonsTower:
-db $00 ; #$00 = Off (default) - #$01 = On
+db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $400041 ; PC 0x180041
 AllowSwordlessMedallionUse:
@@ -191,7 +195,7 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $400043 ; PC 0x180043
 StartingSword:
-db #$01 ; #$00 = No Sword (default) - #$FF = Non-Sword
+db #$00 ; #$00 = No Sword (default) - #$FF = Non-Sword
 ;--------------------------------------------------------------------------------
 org $400044 ; PC 0x180044
 AllowHammerTablets:

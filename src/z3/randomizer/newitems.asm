@@ -1110,6 +1110,8 @@ EnableTemporaryCone:
         BEQ +
         LDA $7EF34A ; Check if we have lamp
         BNE +
+        LDA $045A   ; Check if torches are lit
+        BNE +
 
         REP #$20
         LDA $7E00A0
@@ -1121,6 +1123,8 @@ EnableTemporaryCone:
         BEQ +
         CMP #$010A  ; Check if we're in aginah's cave
         BEQ +
+
+        SEP #$20
 
         LDA #$01
         STA $1D        ; Enable color math for BG1

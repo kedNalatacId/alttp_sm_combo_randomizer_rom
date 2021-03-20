@@ -64,7 +64,7 @@ org $C23798   ; Crocomire's room changes colors $2E, $2F, $3E, and $3F for reaso
 
 org $c98000      ; New item graphics
 base $898000
-    incbin "data/newitems.bin"
+    incbin "data/newitems{% if oldcards %}_oldcards{% endif %}.bin"
 
 org $c4efe0     ; First free space in PLM block
 base $84efe0

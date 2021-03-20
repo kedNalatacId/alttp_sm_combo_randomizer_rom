@@ -187,7 +187,7 @@ def surprise_me(o):
         o['show_map'] = False
 
     o['map_icons'] = True
-    if (o['keycards'] != true or random.randint(0, 9) < 6):
+    if (o['keycards'] != True or random.randint(0, 9) < 6):
         o['map_icons'] = False
 
     o['mapreveal'] = True
@@ -199,7 +199,7 @@ def surprise_me(o):
         o['new_screw'] = False
 
     o['oldcards'] = False
-    if (random.randint(0, 1) < 1):
+    if (random.randint(0, 9) < 2):
         o['oldcards'] = True
 
     o['energybeep'] = True

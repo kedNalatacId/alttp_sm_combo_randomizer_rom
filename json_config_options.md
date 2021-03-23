@@ -53,6 +53,11 @@ Unlike SMZ3's JSON config, this is a flat configuration file.
     - Ignored when surprise mode is set
     - Boolean
     - Whether to use new or old keycard graphics
+- persistent_floodgate
+    - Optional
+    - Ignored when surprise mode is set
+    - Boolean
+    - Whether to keep the floodgate area drained or not
 - skip_g4_cutscene
     - Optional
     - Ignored when surprise mode is set

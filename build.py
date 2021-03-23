@@ -21,7 +21,6 @@ defaults = {
     'cards': True,
     'cleanup': True,
     'energybeep': True,
-    'fastmb': False,
     'fastganon': False,
     'heartbeep': 'normal',
     'heartcolor': 'red',
@@ -90,9 +89,7 @@ def parse_args():
     parser.add_argument('--energybeep', default='__unset', action='store_true', help="Turn on/off SM Energy Beep (default: on)")
     parser.add_argument('--no-energybeep', dest='energybeep', action='store_false')
     parser.add_argument('--fastganon', default='__unset', action='store_true', help="Enable Fast Ganon")
-    parser.add_argument('--no-fastganon', dest='fastmb', action='store_false')
-    parser.add_argument('--fastmb', default='__unset', action='store_true', help="Enable Fast MB")
-    parser.add_argument('--no-fastmb', dest='fastmb', action='store_false')
+    parser.add_argument('--no-fastganon', dest='fastganon', action='store_false')
     parser.add_argument('--heartbeep', default='__unset', help="Zelda Heart Beep Speed; default is Normal")
     parser.add_argument('--heartcolor', default='__unset', help="Zelda Heart Color; default is Red")
     parser.add_argument('-k', '--keyshuffle', default='__unset', help="Keysanity level, currently between 1-15; default is (15) all on")

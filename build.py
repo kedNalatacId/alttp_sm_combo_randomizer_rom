@@ -18,6 +18,8 @@ import random
 asar_def = 'asar' if platform.system() == 'Windows' else './asar'
 defaults = {
     'asar': asar_def,
+    'always_bt': True,
+    'bt_escape': 'normal',
     'cards': True,
     'cleanup': True,
     'energybeep': True,
@@ -36,7 +38,7 @@ defaults = {
     'output': os.path.join('build', 'zsm.ips'),
     'seed': 0,
     'skipz3title': True,
-    'skip_g4_cutscene': True,
+    # 'skip_g4_cutscene': True,
     'smspriteauthor': '',
     'surprise_me': False,
     'z3spriteauthor': '',
@@ -81,6 +83,8 @@ def keyshuffle_levels(arg):
 def parse_args():
     parser = argparse.ArgumentParser(description='Build SMZ3 IPS')
     parser.add_argument('--asar', default='__unset', help='Location of asar binary (default is {})'.format(asar_def))
+    parser.add_argument('--always_bt', default='__unset', help="Always trigger Bomb Torizo (default is true)")
+    parser.add_argument('--bt_escape', default='__unset', help="Timing of Bomb Torizo door, normal or double (default is normal)")
     parser.add_argument('-c', '--cards', default='__unset', action='store_true', help="Use Keycards; default is true")
     parser.add_argument('--no-cards', dest='cards', action='store_false')
     parser.add_argument('--cleanup', default='__unset', action='store_true', help="Whether to cleanup created files or not (default is true)")
@@ -110,8 +114,8 @@ def parse_args():
     parser.add_argument('--seed', default=0, help="Seed initialization vector")
     parser.add_argument('--skipz3title', default='__unset', action='store_true', help="Skip Zelda Title Screen")
     parser.add_argument('--no-skipz3title', dest='skipz3title', action='store_false')
-    parser.add_argument('--skip_g4_cutscene', action='store_true', help="Skip Gold Four Statue Cutscene")
-    parser.add_argument('--no-skip_g4_cutscene', dest='skip_g4_cutscene', action='store_false')
+    # parser.add_argument('--skip_g4_cutscene', default='__unset', action='store_true', help="Skip Gold Four Statue Cutscene")
+    # parser.add_argument('--no-skip_g4_cutscene', dest='skip_g4_cutscene', action='store_false')
     parser.add_argument('--smspriteauthor', default='__unset', help="Name of the Metroid Sprite Author");
     parser.add_argument('--surprise_me', action='store_true', help="Randomize customization settings")
     parser.add_argument('--z3spriteauthor', default='__unset', help="Name of the Zelda Sprite Author");
@@ -160,13 +164,22 @@ def surprise_me(o):
         random.seed()
 
     # These three items need to be chosen the same for all players
+    o['always_bt'] = True
+    if (random.randint(0, 9) < 5):
+        o['always_bt'] = False
+
+    o['bt_escape'] = 'normal'
+    if (random.randint(0, 9) < 7):
+        o['bt_escape'] = 'double'
+
     o['persistent_floodgate'] = False
     if (random.randint(0, 9) < 2):
         o['persistent_floodgate'] = True
 
-    o['skip_g4_cutscene'] = True
-    if (random.randint(0, 9) < 2):
-        o['skip_g4_cutscene'] = False
+    # currently required for SM bosses < 4
+    # o['skip_g4_cutscene'] = True
+    # if (random.randint(0, 9) < 2):
+    #     o['skip_g4_cutscene'] = False
 
     o['skipz3title'] = True
     if (random.randint(0, 9) < 2):

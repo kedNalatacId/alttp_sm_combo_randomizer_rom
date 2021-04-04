@@ -25,4 +25,8 @@ config_keysanity:    ; $F47006
 ; it's bits, so bit-or for the final value
 ; e.g. 07C1 is tourian open with gray statues and zebes awake
 config_events:       ; F47008
-    dw #$0001
+    dw #$0000
+
+; Number of SM bosses to defeat
+config_sm_bosses:    ; F4700A
+    db #$04

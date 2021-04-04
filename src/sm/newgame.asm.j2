@@ -43,6 +43,7 @@ introskip_doorflags:
     sta $7ed8b8
 
     lda.l config_events
+    {% if mode == 'smz3' and zebes == 'awake' %}ora.w #$0001{% endif %}
     sta $7ed820
 
     ; Set up open mode event bit flags

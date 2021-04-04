@@ -18,96 +18,119 @@ Unlike SMZ3's JSON config, this is a flat configuration file.
     - Sets whether we're building for SMZ3 or SMR
 - surprise_me
     - Optional
-    - Boolean
+    - Boolean; defaults to false
     - Chooses various options at random
 
 ### Metroid-Specific Parameters
 
 - cards
-    - Optional
-    - Boolean
     - Whether to use keycards or not
+    - Optional
+    - Boolean; defaults to true
 - new_screw
-    - Optional
-    - Ignored when surprise mode is set
-    - Boolean
     - Whether to use separated space jump / screw attack or not
-    - Defaults to True
+    - Optional
+    - Boolean; defaults to true
+    - Ignored when surprise mode is set
 - map
-    - Optional
-    - Ignored when surprise mode is set
-    - Boolean
     - Whether to show Super Metroid's map upon landing
+    - Optional
+    - Boolean; defaults to true
+    - Ignored when surprise mode is set
 - energybeep
-    - Optional
-    - Ignored when surprise mode is set
-    - Boolean
     - Whether the low health beep should play or not
+    - Optional
+    - Boolean; defaults to true
+    - Ignored when surprise mode is set
 - map_icons
-    - Optional
-    - Ignored when surprise mode is set
-    - Boolean
     - Whether or not keycard map icons appera on the SM map
+    - Optional
+    - Boolean; defaults to true
+    - Ignored when surprise mode is set
 - oldcards
-    - Optional
-    - Ignored when surprise mode is set
-    - Boolean
     - Whether to use new or old keycard graphics
-- persistent_floodgate
     - Optional
+    - Boolean; defaults to false
     - Ignored when surprise mode is set
-    - Boolean
-    - Whether to keep the floodgate area drained or not
-- skip_g4_cutscene
+- always_bt
+    - Whether to always trigger the Bomb Torizo fight or not
     - Optional
+    - Boolean; defaults to true
     - Ignored when surprise mode is set
-    - IMPORTANT: This value is chosen by the global seed;
+    - This value is chosen by the global seed;
         it should be the same for all players
-    - Skips the Golden Four Statue cut scene when heading to Tourian
-- zebes
+- bt_escape
+    - How fast the door closes for the Bomb Torizo fight
     - Optional
+    - Values are either "normal" or "double"; defaults to double
+        - "double" doubles the amount of time available to escape
+            (makes it easier to escape)
     - Ignored when surprise mode is set
-    - Values are either "asleep" or "awake"
+    - This value is chosen by the global seed;
+        it should be the same for all players
+- skip_g4_cutscene
+    - Skips the Golden Four Statue cut scene when heading to Tourian
+        - Set to false if you like watching the statue fall (not good for race seeds)
+    - NOT CURRENTLY WORKING; broken with recent changes allowing Early Tourian
+    - Optional
+    - Boolean; defaults to true
+    - Ignored when surprise mode is set
+    - This value is chosen by the global seed;
+        it should be the same for all players
+- zebes
     - Starts Zebes either asleep (like classic SM) or awake
-    - Zebes wakes up on any transition to Zelda
+        - Zebes wakes up on any transition to Zelda
+    - Optional
+    - Values are either "asleep" or "awake"
+    - Ignored when surprise mode is set
     - The door to wake zebes is currently bottom of the climb heading into pit room
         - goal is to move it to back of pit room (so that pit room is still asleep)
 
 ### Zelda-Specific Parameters
 
 - keyshuffle
-    - Optional
     - Which dungeon items are active
     - This is a simple bitmask
         - 1 == maps
         - 2 == compasses
         - 4 == small keys
         - 8 == big keys
-- heartbeep
     - Optional
-    - Ignored when surprise mode is set
+- heartbeep
+    - What speed to beep when Link is low on health
+    - Optional
     - Possible Values:
         - 00 or "off"
         - 20 or "normal"
         - 40 or "half"
         - 80 or "quarter"
-- heartcolor
-    - Optional
     - Ignored when surprise mode is set
+- heartcolor
+    - What color to shade Link's heart (upper right corner of screen)
+    - Optional
     - Possible Values:
         - blue
         - green
         - red
         - yellow
+    - Ignored when surprise mode is set
+- persistent_floodgate
+    - Whether to keep the floodgate area drained or not
+    - Optional
+    - Boolean; defaults to false
+    - Ignored when surprise mode is set
 - quickswap
-    - Optional
-    - Ignored when surprise mode is set
-    - IMPORTANT: This value is chosen by the global seed;
-        it should be the same for all players
     - Enables quick swap in Zelda via the L + R shoulder buttons
-- skipz3title
+        - as well as cycling stacked items with double shoulder presses
     - Optional
+    - Boolean; defaults to false
     - Ignored when surprise mode is set
-    - IMPORTANT: This value is chosen by the global seed;
+    - This value is chosen by the global seed;
         it should be the same for all players
+- skipz3title
     - Skips the Zelda file select screen
+    - Optional
+    - Boolean; defaults to true
+    - Ignored when surprise mode is set
+    - This value is chosen by the global seed;
+        it should be the same for all players

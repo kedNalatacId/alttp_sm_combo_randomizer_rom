@@ -13,8 +13,6 @@ You can look at example.json for a breakdown of all the options.
 
 This assembly can be used for either SMZ3 or SMR with keycards
 
-TODO: new keycards haven't yet been imported here... still using old keycards...
-
 -----
 
 A number of changes have occurred between Tewtal's original version and here.
@@ -39,7 +37,7 @@ A number of changes have occurred between Tewtal's original version and here.
 3. Allow a JSON file for common arguments to avoid repetition
     - asar's location -- doesn't have to be in local dir
     - output file -- it can be placed anywhere on the filesystem
-    - see sample.json for more info
+    - see sample.json and json_config_options.md for more info
 
 4. Expanded keysanity mode
     - keycards don't have to be on just because keysanity is
@@ -51,7 +49,9 @@ A number of changes have occurred between Tewtal's original version and here.
 
 4. Added quickswap from ALTTPR
     - but removed iterating through the bottles as it was annoying
-        - could be added back with templating easily enough
+        - instead bottles cycle via double-shoulder press
+            - this version has been PRed into both ALTTPR and SMZ3 (not necessarily accepted)
+        - can be added back if requested
 
 5. Added SMZ3 heart color (previously only available from frontend)
     - for those of us who compile seeds from CLI
@@ -67,11 +67,25 @@ A number of changes have occurred between Tewtal's original version and here.
         - Z3 heart beep
         - Z3 heart color
         - whether SM map is lit up from start or not
-        - etc, etc...c and more to come as the code continues to get combed through
+        - etc, &c... and more to come as the code continues to get combed through
 
 7. Removed various amounts of unneeded whitespace and changed various tabs to spaces
+    - Corrected various speeling mistooks, etc.
 
 8. progressive bow works
 
 9. Zebes can start asleep rather than awake for SMZ3
+    - TODO: Can only get to the pit room because of the morph and missiles check.
 
+10. Fast Ganon, Early GT, Fast Mother Brain, Early Tourian
+    - Fast Ganon has the Pyramid Hole open upon first load of Zelda
+    - Early GT allows setting a variable number of crystals (between 0 and 7) to open Ganon's Tower
+        - Invincible Ganon is included; it may be that 4 crystals open GT, but 6 are required for Ganon
+    - Fast Mother Brain has Tourian open upon first load of Metroid
+    - Early Tourian allows fewer bosses in order to gain access to Tourian (between 0 and 4)
+        - It's also possible to set some bosses as "pre-defeated" by graying out their statues.
+          e.g. If Kraid and Phantoon are pre-defeated, then only
+            Dragon and Ridley would be required to access Tourian
+
+11. Starting gear (Zelda only so far)
+    - It's possible to set Link with starting gear such as boots or sword

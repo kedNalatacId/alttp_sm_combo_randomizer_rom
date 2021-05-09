@@ -46,31 +46,31 @@ RTL
 ;endmacro
 ;--------------------------------------------------------------------------------
 ;macro LoadDialogAddress(address)
-;	PHA : PHX : PHY
-;	PHP
-;	PHB : PHK : PLB
-;		SEP #$30 ; set 8-bit accumulator and index registers
-;		LDA $00 : PHA
-;		LDA $01 : PHA
-;		LDA $02 : PHA
-;			LDA.b #$01 : STA $7F5035 ; set flag
+;    PHA : PHX : PHY
+;    PHP
+;    PHB : PHK : PLB
+;        SEP #$30 ; set 8-bit accumulator and index registers
+;        LDA $00 : PHA
+;        LDA $01 : PHA
+;        LDA $02 : PHA
+;            LDA.b #$01 : STA $7F5035 ; set flag
 ;
-;			LDA.b #<address> : STA $00 ; write pointer to direct page
-;			LDA.b #<address>>>8 : STA $01
-;			LDA.b #<address>>>16 : STA $02
+;            LDA.b #<address> : STA $00 ; write pointer to direct page
+;            LDA.b #<address>>>8 : STA $01
+;            LDA.b #<address>>>16 : STA $02
 ;
-;			LDX.b #$00 : LDY.b #$00
-;			-
-;				LDA [$00], Y ; load the next character from the pointer
-;				STA $7F5700, X ; write to the buffer
-;				INX : INY
-;			CMP.b #$7F : BNE -
-;		PLA : STA $02
-;		PLA : STA $01
-;		PLA : STA $00
-;	PLB
-;	PLP
-;	PLY : PLX : PLA
+;            LDX.b #$00 : LDY.b #$00
+;            -
+;                LDA [$00], Y ; load the next character from the pointer
+;                STA $7F5700, X ; write to the buffer
+;                INX : INY
+;            CMP.b #$7F : BNE -
+;        PLA : STA $02
+;        PLA : STA $01
+;        PLA : STA $00
+;    PLB
+;    PLP
+;    PLY : PLX : PLA
 ;endmacro
 ;--------------------------------------------------------------------------------
 !OFFSET_POINTER = "$7F5094"
@@ -353,27 +353,27 @@ RTL
 ; 	JSL.l Main_ShowTextMessage
 ; 	JSL.l Messaging_Text
 ; RTL
-; ;--------------------------------------------------------------------------------
-; DialogGanon1:
-; 	JSL.l CheckGanonVulnerability : BCS +
-; 		%LoadDialogAddress(GanonText1Alternate)
-; 		BRA ++
-; 	+
-; 		%LoadDialogAddress(GanonText1)
-; 	++
-; 	JSL.l Sprite_ShowMessageMinimal
-; RTL
-; ;--------------------------------------------------------------------------------
-; DialogGanon2:
-; 	JSL.l CheckGanonVulnerability : BCS +
-; 		%LoadDialogAddress(GanonText2Alternate)
-; 		BRA ++
-; 	+
-; 		%LoadDialogAddress(GanonText2)
-; 	++
-; 	JSL.l Sprite_ShowMessageMinimal
-; RTL
-; ;--------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------
+DialogGanon1:
+    JSL.l CheckGanonVulnerability : BCS +
+        %LoadDialogAddress(GanonText1Alternate)
+        BRA ++
+    +
+        %LoadDialogAddress(GanonText1)
+    ++
+    JSL.l Sprite_ShowMessageMinimal
+RTL
+;--------------------------------------------------------------------------------
+DialogGanon2:
+    JSL.l CheckGanonVulnerability : BCS +
+        %LoadDialogAddress(GanonText2Alternate)
+        BRA ++
+    +
+        %LoadDialogAddress(GanonText2)
+    ++
+    JSL.l Sprite_ShowMessageMinimal
+RTL
+;--------------------------------------------------------------------------------
 ; DialogPedestal:
 ; 	PHA
 ; 	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped

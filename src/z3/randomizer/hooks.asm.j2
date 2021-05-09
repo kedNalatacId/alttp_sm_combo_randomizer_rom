@@ -1357,9 +1357,9 @@ NOP #3
 ; ;--------------------------------------------------------------------------------
 ; org $02A005 ; <- 12005 - Bank02.asm:5667 (JSL Main_ShowTextMessage)
 ; JSL.l DialogTriforce : NOP #4
-; ;--------------------------------------------------------------------------------
-; org $1D92EC ; <- E92EC - sprite_ganon.asm:947 (JSL Sprite_ShowMessageMinimal)
-; JSL.l DialogGanon1
+;--------------------------------------------------------------------------------
+org $1D92EC ; <- E92EC - sprite_ganon.asm:947 (JSL Sprite_ShowMessageMinimal)
+JSL.l DialogGanon1
 ; ;--------------------------------------------------------------------------------
 ; org $1D9078 ; <- E9078 - sprite_ganon.asm:552 (LDA.b #$70 : STA $1CF0)
 ; JSL.l DialogGanon2 : RTS

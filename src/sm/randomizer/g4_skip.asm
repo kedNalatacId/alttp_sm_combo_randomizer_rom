@@ -17,7 +17,6 @@ base $8fea00
     beq + : inx
 
 +   lda $7ed82a
-    and.w #$0101
     bit.w #$0001
     beq + : inx
 
